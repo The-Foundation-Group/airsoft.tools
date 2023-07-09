@@ -75,7 +75,7 @@ export function convertSpeed(unit: string, inputSpeed: number, convertTo = '') {
 	if (convertTo === unit) {
 		return inputSpeed;
 	} else {
-		switch (unit) {
+		switch (convertTo) {
 			case 'FPS':
 				return inputSpeed * 3.28084;
 			case 'MPS':
