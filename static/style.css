@@ -1,17 +1,17 @@
 /* GLOBAL STYLES */
-*  {
-    box-sizing: border-box;
-}
+/**  {*/
+/*    box-sizing: border-box;*/
+/*}*/
 
 html {
     font-family: 'Fira Sans', sans-serif;
-    font-size: 150%;
+    /*font-size: 150%;*/
 }
-body {
-    margin: 0;
-}
+/*body {*/
+/*    margin: 0;*/
+/*}*/
 
-#footer {
-    width: 100%;
-    text-align: center;
-}
+/*#footer {*/
+/*    width: 100%;*/
+/*    text-align: center;*/
+/*}*/
