@@ -23,3 +23,10 @@ a {
 a:visited {
   color: color.scale(#40b3ff, $lightness: -35%);
 }
+
+:root {
+  --potato: gold;
+  --mdc-segmented-button-unselected-ink-color: red;
+  --mdc-segmented-button__segment--selected: blue;
+  --mdc-ripple-color: red;
+}

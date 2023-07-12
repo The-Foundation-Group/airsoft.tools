@@ -61,7 +61,7 @@ export function calculateEnergy(energyObject: EnergyObject) {
 	function bbWeightCompare() {
 		let content;
 		if (selectedEnergy !== 'Joules') {
-			content = `<br/>
+			content = `{<br/>}
             ${padZeros(comparisonBbWeight)}g: ${bbEnergyNormalizedJouleOutput(
 				comparisonBbWeight
 			)} joules`;

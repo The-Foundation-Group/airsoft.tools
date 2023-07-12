@@ -8,38 +8,46 @@
 	import Textfield from '@smui/textfield';
 
 	let energyTypes = ['Joules', 'FPS', 'MPS'];
-	let energyObject = {
-		type:"Joules",
-		inputEnergy: null,
-		bbWeight: null,
-		compareWeight: null
-	};
 	let tempEnergyObject = {
-		type:"Joules",
-		inputEnergy: null,
-		bbWeight: null,
-		compareWeight: null
+		inputEnergy: '',
+		bbWeight: '',
+		compareWeight: ''
+	};
+	let energyObject = {
+		type: 'Joules',
+		inputEnergy: 0,
+		bbWeight: 0,
+		compareWeight: 0
 	};
 	let energyOutput = '';
-	const validNumber = new RegExp(/^\d*\.?\d*$/);
 
-	// function buildEnergyObjectPayload {
-	//
-	// }
+	function buildEnergyObjectPayload () {
+		energyObject.inputEnergy = Number(energyObject.inputEnergy);
+		energyObject.bbWeight = Number(energyObject.bbWeight);
+		energyObject.compareWeight = Number(energyObject.compareWeight);
+		return calculateEnergy(energyObject);
+	}
 	function validateNumber(elem, value) {
 		// debugger;
-			if (elem.inputType === "deleteContentBackward" && tempEnergyObject[value].length > 0) {
-				tempEnergyObject[value] = tempEnergyObject[value].slice(0,-1)
-				energyObject[value] = tempEnergyObject[value]
-			} else if (validNumber.test(elem.data)) {
-				energyObject[value] = (tempEnergyObject[value] === null ? elem.data : tempEnergyObject[value]+elem.data);
-				tempEnergyObject[value] = energyObject[value]
-			} else {
-				energyObject[value] = tempEnergyObject[value]
-			}
+		let inputType = elem.inputType;
+		switch (inputType) {
+			case 'deleteContentBackward':
+				energyObject[value] = (tempEnergyObject[value] === "" ? "0" : tempEnergyObject[value]);
+				break;
+			default:
+				if (tempEnergyObject[value].charAt(0) === '.') {
+					tempEnergyObject[value] = 0 + tempEnergyObject[value];
+				}
+				if (Number(tempEnergyObject[value] + '1')) {
+					energyObject[value] = tempEnergyObject[value]
+					tempEnergyObject[value] = energyObject[value];
+				} else {
+					tempEnergyObject[value] = energyObject[value]
+				}
+		}
 	}
 	function doEnergy() {
-		energyOutput = calculateEnergy(energyObject);
+		energyOutput = buildEnergyObjectPayload();
 	}
 </script>
 
@@ -50,46 +58,50 @@
 	<LayoutGrid>
 		<Cell span={6}>
 			<Card padded>
-					<SegmentedButton
-						style="display: flex;"
-						segments={energyTypes}
-						let:segment
-						singleSelect
-						selected={energyObject.type}
+				<SegmentedButton
+					style="display: flex;"
+					segments={energyTypes}
+					let:segment
+					singleSelect
+					selected={energyObject.type}
+				>
+					<Segment
+						style="flex-grow: 1; justify-content: center; flex-basis: 0;"
+						{segment}
+						on:click={() => {energyObject.type = segment; tempEnergyObject["inputEnergy"] = ""}}
 					>
-						<Segment color="secondary" variant="raised" style="flex-grow: 1;" {segment} on:click={() => energyObject.type = segment}>
-							<Label>{segment}</Label>
-						</Segment>
-					</SegmentedButton>
-					<Textfield
-						style="margin-top: 5px; margin-bottom: 10px"
-						variant="outlined"
-						bind:value={energyObject.inputEnergy}
-                        input$placeholder={energyObject.type}
-						required
-						on:input={(input) => validateNumber(input, "type")}
-					/>
-					<Label>BB Weight (grams)</Label>
-					<Textfield
-						style="margin-top: 5px; margin-bottom: 10px"
-						variant="outlined"
-						bind:value={energyObject.bbWeight}
-						input$placeholder="0.25"
-						required
-						input$mode="numeric"
-						on:input={(input) => validateNumber(input, "bbWeight")}
-					/>
-					<Label>Comparison BB</Label>
-					<Textfield
-						style="margin-top: 5px; margin-bottom: 10px; -webkit-appearance: none; -moz-appearance: textfield;"
-						variant="outlined"
-						bind:value={energyObject.compareWeight}
-						input$placeholder="0.25"
-						input$mode="numeric"
-						on:input={(input) => validateNumber(input, "compareWeight")}
-					/>
-					<Button color="secondary" variant="raised" on:click={() => doEnergy()}>Calculate</Button>
-				<div id="energy-output">{energyOutput}</div>
+						<Label>{segment}</Label>
+					</Segment>
+				</SegmentedButton>
+				<Textfield
+					style="margin-top: 5px; margin-bottom: 10px"
+					variant="outlined"
+					bind:value={tempEnergyObject.inputEnergy}
+					input$placeholder={energyObject.type}
+					required
+					on:input={(input) => validateNumber(input, 'inputEnergy')}
+				/>
+				<Label>BB Weight (grams)</Label>
+				<Textfield
+					style="margin-top: 5px; margin-bottom: 10px"
+					variant="outlined"
+					bind:value={tempEnergyObject.bbWeight}
+					input$placeholder="0.25"
+					required
+					input$mode="numeric"
+					on:input={(input) => validateNumber(input, 'bbWeight')}
+				/>
+				<Label>Comparison BB</Label>
+				<Textfield
+					style="margin-top: 5px; margin-bottom: 10px; -webkit-appearance: none; -moz-appearance: textfield;"
+					variant="outlined"
+					bind:value={tempEnergyObject.compareWeight}
+					input$placeholder="0.25"
+					input$mode="numeric"
+					on:input={(input) => validateNumber(input, 'compareWeight')}
+				/>
+				<Button color="secondary" variant="raised" on:click={() => doEnergy()}>Calculate</Button>
+				<div id="energy-output">{@html energyOutput}</div>
 			</Card>
 		</Cell>
 	</LayoutGrid>
@@ -117,6 +129,7 @@
 		/* Firefox 18- */
 		font-size: 1rem;
 	}
+
 
 	#calculator-content {
 		display: flex;
