@@ -22,7 +22,8 @@
 		themeChange(false);
 	});
 
-	function doEnergy() {
+	function doEnergy(event) {
+		event.preventDefault();
 		energyObject.inputEnergy = Number(tempEnergyObject.inputEnergy);
 		energyObject.bbWeight = Number(tempEnergyObject.bbWeight);
 		energyObject.compareWeight = Number(tempEnergyObject.compareWeight);
@@ -84,7 +85,7 @@
 							(tempEnergyObject.compareWeight = decimalizeString(tempEnergyObject.compareWeight))}
 						inputmode="numeric"
 					/>
-					<button class="btn btn-secondary w-full mt-4" on:click={() => doEnergy()}
+					<button class="btn btn-secondary w-full mt-4" on:click={doEnergy}
 						>Calculate</button
 					>
 				</form>
