@@ -15,7 +15,11 @@ export function roundTo(input: number, decimalAmount: number) {
 }
 
 export function padZeros(num: number) {
-	// makes number eg. 0.2 > 0.20
+	// adds some prettiness to the strings
+	if (Number.isInteger(num)) {
+		return num + '.0';
+	}
+	// makes decimal number eg. 0.2 > 0.20
 	return String(num).padEnd(4, '0');
 }
 
@@ -84,5 +88,27 @@ export function convertSpeed(unit: string, inputSpeed: number, convertTo = '') {
 				console.log('Speed conversion failure.');
 				return inputSpeed;
 		}
+	}
+}
+
+export function validateNumber(elem: any, currentValue: string) {
+	const validString = /^\.?[0-9]+(\.[0-9]*)?$/;
+	if (!Number(elem.data + 1)) {
+		elem.preventDefault();
+	} else if (currentValue !== '' && elem.inputType === 'insertText') {
+		if (!validString.test(0 + currentValue + elem.data)) {
+			elem.preventDefault();
+		}
+	}
+	if (currentValue === '' && elem.data.charAt(0) === '.') {
+		elem.value = '0.1';
+	}
+}
+
+export function decimalizeString(value: string) {
+	if (value.charAt(0) === '.') {
+		return '0' + value;
+	} else {
+		return value;
 	}
 }
