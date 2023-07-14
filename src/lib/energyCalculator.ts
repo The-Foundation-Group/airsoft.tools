@@ -13,17 +13,13 @@ export function calculateEnergy(
 		output = `Please fill in ${selectedEnergy} field.`;
 	} else if (!bbWeight) {
 		output = `Please fill in BB weight field.`;
-	} else if (isNaN(bbWeight) || isNaN(inputEnergy)) {
-		output = 'Fields can only accept numbers as input.';
 	} else if (
 		(selectedEnergy === 'Joules' && inputEnergy > 6) ||
 		(selectedEnergy !== 'Joules' && bbEnergyNormalizedJouleOutput(bbWeight) > 6)
 	) {
 		output = `Dangerous value, exceeds 6J.`;
 	} else if (comparisonBbWeight) {
-		if (isNaN(comparisonBbWeight)) {
-			output = 'Fields can only accept numbers as input.';
-		} else output = bbWeightNoCompare() + bbWeightCompare();
+		output = bbWeightNoCompare() + bbWeightCompare();
 	} else output = bbWeightNoCompare();
 	return output;
 
