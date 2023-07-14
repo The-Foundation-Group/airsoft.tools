@@ -36,13 +36,13 @@
 </svelte:head>
 <main>
 	<div class="container mx-auto flex justify-center">
-		<div class="card w-96 bg-base-200 shadow-xl m-4">
+		<div class="card w-80 bg-base-200 shadow-xl m-4">
 			<div class="card-body">
 				<form id="energy-calculator-input">
 					<div class="join pb-1" style="display: flex;">
 						{#each energyTypes as energyType}
 							<input
-								class="join-item btn btn-outline btn-primary no-animation grow basis-0 justify-center text-lg font-bold"
+								class="join-item btn btn-outline btn-primary no-animation grow basis-0 p-0 justify-center text-lg font-bold"
 								type="radio"
 								name="energyType"
 								id={energyType}
