@@ -5,8 +5,6 @@ import { vitePreprocess } from '@sveltejs/kit/vite';
 const config = {
 	// Consult https://kit.svelte.dev/docs/integrations#preprocessors
 	// for more information about preprocessors
-	preprocess: vitePreprocess(),
-
 	kit: {
 		adapter: adapter({
 			routes: {
@@ -14,7 +12,8 @@ const config = {
 				exclude: ['<all>']
 			}
 		})
-	}
+	},
+	preprocess: vitePreprocess()
 };
 
 export default config;
