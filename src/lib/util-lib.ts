@@ -100,9 +100,6 @@ export function validateNumber(elem: any, currentValue: string) {
 			elem.preventDefault();
 		}
 	}
-	if (currentValue === '' && elem.data.charAt(0) === '.') {
-		elem.value = '0.1';
-	}
 }
 
 export function decimalizeString(value: string) {
