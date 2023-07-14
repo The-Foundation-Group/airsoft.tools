@@ -1,12 +1,13 @@
 import { convertSpeed, padZeros, roundTo } from './util-lib';
+import type { EnergyObject } from '$lib/types';
 
-export function calculateEnergy(
-	inputEnergy: number,
-	bbWeight: number,
-	comparisonBbWeight: number,
-	selectedEnergy: string
-) {
+export function calculateEnergy(energyObject: EnergyObject) {
 	let output;
+	const selectedEnergy: string = energyObject['type'];
+	const inputEnergy: number = energyObject['inputEnergy'];
+	const bbWeight: number = energyObject['bbWeight'];
+	const comparisonBbWeight: number = energyObject['compareWeight'];
+
 	if (!bbWeight && !inputEnergy) {
 		output = `Please fill in both ${selectedEnergy} and BB weight fields.`;
 	} else if (!inputEnergy) {

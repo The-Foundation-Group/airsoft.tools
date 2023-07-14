@@ -3,4 +3,8 @@
 <!--	<a href="/database">Database</a>-->
 <!--</nav>-->
 
-<slot></slot>
+<script>
+    import '../app.css';
+</script>
+
+<slot />
