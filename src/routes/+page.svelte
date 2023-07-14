@@ -22,7 +22,8 @@
 		themeChange(false);
 	});
 
-	function doEnergy() {
+	function doEnergy(event) {
+		event.preventDefault();
 		energyObject.inputEnergy = Number(tempEnergyObject.inputEnergy);
 		energyObject.bbWeight = Number(tempEnergyObject.bbWeight);
 		energyObject.compareWeight = Number(tempEnergyObject.compareWeight);
@@ -41,7 +42,7 @@
 					<div class="join pb-1" style="display: flex;">
 						{#each energyTypes as energyType}
 							<input
-								class="join-item btn btn-outline btn-primary no-animation grow basis-0 justify-center"
+								class="join-item btn btn-outline btn-primary no-animation grow basis-0 justify-center text-lg font-bold"
 								type="radio"
 								name="energyType"
 								id={energyType}
@@ -61,8 +62,9 @@
 						on:input={() =>
 							(tempEnergyObject.inputEnergy = decimalizeString(tempEnergyObject.inputEnergy))}
 						inputmode="numeric"
+						autocomplete="off"
 					/>
-					<label class="label pt-3" for="energy-bbWeight">BB Weight (grams)</label>
+					<label class="label pt-3 font-bold" for="energy-bbWeight">BB Weight (grams)</label>
 					<input
 						class="input input-bordered w-full max-w-xs"
 						id="energy-bbWeight"
@@ -72,8 +74,9 @@
 						on:input={() =>
 							(tempEnergyObject.bbWeight = decimalizeString(tempEnergyObject.bbWeight))}
 						inputmode="numeric"
+						autocomplete="off"
 					/>
-					<label class="label pt-3" for="energy-bbWeightCompare">Comparison BB weight</label>
+					<label class="label pt-3 font-bold" for="energy-bbWeightCompare">Comparison BB weight</label>
 					<input
 						class="input input-bordered w-full max-w-xs"
 						id="energy-bbWeightCompare"
@@ -83,12 +86,13 @@
 						on:input={() =>
 							(tempEnergyObject.compareWeight = decimalizeString(tempEnergyObject.compareWeight))}
 						inputmode="numeric"
+						autocomplete="off"
 					/>
-					<button class="btn btn-secondary w-full mt-4" on:click={() => doEnergy()}
+					<button class="btn btn-secondary w-full mt-4 text-lg font-bold" on:click={doEnergy}
 						>Calculate</button
 					>
 				</form>
-				<div class="label h-14 items-start" id="energy-output">{@html energyOutput}</div>
+				<div class="label h-14 items-start p-0 justify-center text-lg font-bold">{@html energyOutput}</div>
 			</div>
 		</div>
 	</div>
