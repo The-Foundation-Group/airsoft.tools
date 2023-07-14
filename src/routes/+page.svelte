@@ -61,7 +61,7 @@
 						on:beforeinput={(event) => validateNumber(event, tempEnergyObject.inputEnergy)}
 						on:input={() =>
 							(tempEnergyObject.inputEnergy = decimalizeString(tempEnergyObject.inputEnergy))}
-						inputmode="numeric"
+						inputmode="decimal"
 						autocomplete="off"
 					/>
 					<label class="label pt-3 font-bold" for="energy-bbWeight">BB Weight (grams)</label>
@@ -73,7 +73,7 @@
 						on:beforeinput={(event) => validateNumber(event, tempEnergyObject.bbWeight)}
 						on:input={() =>
 							(tempEnergyObject.bbWeight = decimalizeString(tempEnergyObject.bbWeight))}
-						inputmode="numeric"
+						inputmode="decimal"
 						autocomplete="off"
 					/>
 					<label class="label pt-3 font-bold" for="energy-bbWeightCompare">Comparison BB weight</label>
@@ -85,7 +85,7 @@
 						on:beforeinput={(event) => validateNumber(event, tempEnergyObject.compareWeight)}
 						on:input={() =>
 							(tempEnergyObject.compareWeight = decimalizeString(tempEnergyObject.compareWeight))}
-						inputmode="numeric"
+						inputmode="decimal"
 						autocomplete="off"
 					/>
 					<button class="btn btn-secondary w-full mt-4 text-lg font-bold" on:click={doEnergy}
