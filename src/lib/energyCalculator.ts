@@ -1,4 +1,4 @@
-import { convertSpeed, padZeros, roundTo } from './util-lib';
+import { bbEnergyNormalizedJouleOutput, fpsOut, mpsOut, padZeros } from './util-lib';
 import type { EnergyObject } from '$lib/types';
 
 export function calculateEnergy(energyObject: EnergyObject) {
@@ -16,7 +16,8 @@ export function calculateEnergy(energyObject: EnergyObject) {
 		output = `Please fill in BB weight field.`;
 	} else if (
 		(selectedEnergy === 'Joules' && inputEnergy > 6) ||
-		(selectedEnergy !== 'Joules' && bbEnergyNormalizedJouleOutput(bbWeight) > 6)
+		(selectedEnergy !== 'Joules' &&
+			bbEnergyNormalizedJouleOutput(selectedEnergy, inputEnergy, bbWeight) > 6)
 	) {
 		output = `Dangerous value, exceeds 6J.`;
 	} else if (comparisonBbWeight) {
@@ -24,32 +25,17 @@ export function calculateEnergy(energyObject: EnergyObject) {
 	} else output = bbWeightNoCompare();
 	return output;
 
-	function calcSpeed(weight: number) {
-		return Math.sqrt(inputEnergy / keMath(weight));
-	}
-
-	function mpsOut(weight: number) {
-		return roundTo(calcSpeed(weight), 2);
-	}
-
-	function fpsOut(weight: number) {
-		return roundTo(calcSpeed(weight) * 3.28084, 2);
-	}
-
-	function keMath(weight: number) {
-		return 0.5 * ((1 / 1000) * weight);
-	}
-
-	function bbEnergyNormalizedJouleOutput(weight: number) {
-		return roundTo(keMath(weight) * convertSpeed(selectedEnergy, inputEnergy, 'MPS') ** 2, 2);
-	}
-
 	function bbWeightNoCompare() {
 		let content;
 		if (selectedEnergy !== 'Joules') {
-			content = `${padZeros(bbWeight)}g: ${bbEnergyNormalizedJouleOutput(bbWeight)} joules`;
+			content = `${padZeros(bbWeight)}g: ${padZeros(
+				bbEnergyNormalizedJouleOutput(selectedEnergy, inputEnergy, bbWeight)
+			)} joules`;
 		} else {
-			content = `${padZeros(bbWeight)}g: ${fpsOut(bbWeight)} FPS / ${mpsOut(bbWeight)} MPS`;
+			content = `${padZeros(bbWeight)}g: ${fpsOut(inputEnergy, bbWeight)} FPS / ${mpsOut(
+				inputEnergy,
+				bbWeight
+			)} MPS`;
 		}
 		return content;
 	}
@@ -58,14 +44,15 @@ export function calculateEnergy(energyObject: EnergyObject) {
 		let content;
 		if (selectedEnergy !== 'Joules') {
 			content = `<br/>
-            ${padZeros(comparisonBbWeight)}g: ${bbEnergyNormalizedJouleOutput(
-				comparisonBbWeight
+            ${padZeros(comparisonBbWeight)}g: ${padZeros(
+				bbEnergyNormalizedJouleOutput(selectedEnergy, inputEnergy, comparisonBbWeight)
 			)} joules`;
 		} else {
 			content = `<br/>
-            ${padZeros(comparisonBbWeight)}g: ${fpsOut(comparisonBbWeight)} FPS / ${mpsOut(
+            ${padZeros(comparisonBbWeight)}g: ${fpsOut(
+				inputEnergy,
 				comparisonBbWeight
-			)} MPS`;
+			)} FPS / ${mpsOut(inputEnergy, comparisonBbWeight)} MPS`;
 		}
 		return content;
 	}

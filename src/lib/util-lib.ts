@@ -93,13 +93,16 @@ export function convertSpeed(unit: string, inputSpeed: number, convertTo = '') {
 
 export function validateNumber(elem: any, currentValue: string) {
 	const validString = /^\.?[0-9]+(\.[0-9]*)?$/;
-	if (!Number(elem.data + 1)) {
+	if (!Number(elem.data + 1) || elem.data === ' ') {
 		elem.preventDefault();
+		return false;
 	} else if (currentValue !== '' && elem.inputType === 'insertText') {
 		if (!validString.test(0 + currentValue + elem.data)) {
 			elem.preventDefault();
+			return false;
 		}
 	}
+	return true;
 }
 
 export function decimalizeString(value: string) {
@@ -108,4 +111,28 @@ export function decimalizeString(value: string) {
 	} else {
 		return value;
 	}
+}
+
+export function calcSpeed(inputEnergy: number, weight: number) {
+	return Math.sqrt(inputEnergy / keMath(weight));
+}
+
+export function mpsOut(inputEnergy: number, weight: number) {
+	return roundTo(calcSpeed(inputEnergy, weight), 2);
+}
+
+export function fpsOut(inputEnergy: number, weight: number) {
+	return roundTo(calcSpeed(inputEnergy, weight) * 3.28084, 2);
+}
+
+export function keMath(weight: number) {
+	return 0.5 * ((1 / 1000) * weight);
+}
+
+export function bbEnergyNormalizedJouleOutput(
+	selectedEnergy: string,
+	inputEnergy: number,
+	weight: number
+) {
+	return roundTo(keMath(weight) * convertSpeed(selectedEnergy, inputEnergy, 'MPS') ** 2, 2);
 }
