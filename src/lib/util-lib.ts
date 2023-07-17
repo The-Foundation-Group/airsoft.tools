@@ -24,8 +24,8 @@ export function padZeros(num: number) {
 }
 
 //Just returns a ratio as a string
-export function volumeToBarrelRatio(cV: number, bV: number) {
-	return roundTo(cV / bV, 4) + ':' + '1';
+export function volumeToBarrelRatio(cylVol: number, barrelVol: number) {
+	return roundTo(cylVol / barrelVol, 4) + ':' + '1';
 }
 
 export function calcBarrelVolume(barrelDiameter: number, barrelLength: number) {
@@ -91,18 +91,34 @@ export function convertSpeed(unit: string, inputSpeed: number, convertTo = '') {
 	}
 }
 
-export function validateNumber(elem: any, currentValue: string) {
+let timer: number;
+export function validateNumber(event: any, currentValue: string, maxlength: number) {
+	const errorStyle = ['border-red-500', 'transition-[border-color]'];
+	let invalid = false;
 	const validString = /^\.?[0-9]+(\.[0-9]*)?$/;
-	if (!Number(elem.data + 1) || elem.data === ' ') {
-		elem.preventDefault();
-		return false;
-	} else if (currentValue !== '' && elem.inputType === 'insertText') {
-		if (!validString.test(0 + currentValue + elem.data)) {
-			elem.preventDefault();
-			return false;
+	if (event.data != null) {
+		switch (true) {
+			case isNaN(Number(event.data + '1')):
+			// falls through
+			case event.data === ' ':
+			case !validString.test(0 + currentValue + event.data):
+			case event.target.placeholder === 'Joules' && Number(currentValue + event.data) >= 6:
+			case event.data.length >= maxlength:
+			case event.target.selectionStart >= maxlength:
+				event.preventDefault();
+				invalid = true;
+				break;
+			default:
 		}
 	}
-	return true;
+
+	if (invalid) {
+		event.target.classList.add(...errorStyle);
+		clearTimeout(timer);
+		timer = setTimeout(() => {
+			event.target.classList.remove(...errorStyle);
+		}, 200);
+	}
 }
 
 export function decimalizeString(value: string) {
