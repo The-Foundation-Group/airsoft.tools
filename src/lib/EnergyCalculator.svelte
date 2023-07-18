@@ -7,8 +7,15 @@
 		padZeros,
 		validateNumber
 	} from '$lib/util-lib';
+	import type {FullSpecsObject} from '$lib/types';
 
-	let energyTypes = ['Joules', 'FPS', 'MPS'];
+	const energyTypes: FullSpecsObject = {
+		Joules: { maxValue: 6, maxLength: 4 },
+		FPS: { maxValue: 750, maxLength: 6 },
+		MPS: { maxValue: 230, maxLength: 6 }
+	};
+
+	const bbObject: FullSpecsObject = { bb: { maxValue: 3, maxLength: 5 } };
 
 	let tempEnergyObject = {
 		inputEnergy: '',
@@ -43,7 +50,7 @@
 				weight
 			)} MPS`;
 		} else {
-			if (output < 6) {
+			if (output <= 6) {
 				return `${padZeros(weight)}g: ${padZeros(output)} joules`;
 			} else return `${padZeros(weight)}g: ${danger}`;
 		}
@@ -59,9 +66,9 @@
 	<div class="card-body p-6">
 		<form id="energy-calculator-input">
 			<div class="join pb-1" style="display: flex;">
-				{#each energyTypes as energyType}
+				{#each Object.entries(energyTypes) as [energyType]}
 					<input
-						class="join-item btn btn-outline btn-primary no-animation grow basis-0 p-0 justify-center text-lg font-bold !outline-none"
+						class="join-item btn btn-outline btn-primary no-animation grow basis-0 p-0 justify-center text-lg font-bold !outline-none focus:btn-active"
 						type="radio"
 						name="energyType"
 						id={energyType}
@@ -76,8 +83,9 @@
 				class="input input-bordered w-full max-w-xs !outline-none"
 				id="energy-inputEnergy"
 				bind:value={tempEnergyObject.inputEnergy}
-				placeholder={selectedEnergy}
-				on:beforeinput={(event) => validateNumber(event, tempEnergyObject.inputEnergy, 6)}
+				placeholder={`${selectedEnergy} (Max ${energyTypes[selectedEnergy].maxValue})`}
+				on:beforeinput={(event) =>
+					validateNumber(event, tempEnergyObject.inputEnergy, energyTypes[selectedEnergy])}
 				inputmode="decimal"
 				autocomplete="off"
 			/>
@@ -86,8 +94,8 @@
 				class="input input-bordered w-full max-w-xs !outline-none"
 				id="energy-bbWeight"
 				bind:value={tempEnergyObject.bbWeight}
-				placeholder="0.25"
-				on:beforeinput={(event) => validateNumber(event, tempEnergyObject.bbWeight, 5)}
+				placeholder={`0.25 (Max ${bbObject['bb'].maxValue})`}
+				on:beforeinput={(event) => validateNumber(event, tempEnergyObject.bbWeight, bbObject.bb)}
 				inputmode="decimal"
 				autocomplete="off"
 			/>
@@ -96,8 +104,9 @@
 				class="input input-bordered w-full max-w-xs !outline-none"
 				id="energy-bbWeightCompare"
 				bind:value={tempEnergyObject.compareWeight}
-				placeholder="0.25"
-				on:beforeinput={(event) => validateNumber(event, tempEnergyObject.compareWeight, 5)}
+				placeholder={`0.25 (Max ${bbObject['bb'].maxValue})`}
+				on:beforeinput={(event) =>
+					validateNumber(event, tempEnergyObject.compareWeight, bbObject.bb)}
 				inputmode="decimal"
 				autocomplete="off"
 			/>
