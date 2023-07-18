@@ -1,3 +1,5 @@
+import type { SpecsObject } from '$lib/types';
+
 const atm = 14.6959; //psia
 
 //Atmospheric pressure at any given elevation and temperature
@@ -24,8 +26,8 @@ export function padZeros(num: number) {
 }
 
 //Just returns a ratio as a string
-export function volumeToBarrelRatio(cV: number, bV: number) {
-	return roundTo(cV / bV, 4) + ':' + '1';
+export function volumeToBarrelRatio(cylVol: number, barrelVol: number) {
+	return roundTo(cylVol / barrelVol, 4) + ':' + '1';
 }
 
 export function calcBarrelVolume(barrelDiameter: number, barrelLength: number) {
@@ -91,14 +93,36 @@ export function convertSpeed(unit: string, inputSpeed: number, convertTo = '') {
 	}
 }
 
-export function validateNumber(elem: any, currentValue: string) {
-	const validString = /^\.?[0-9]+(\.[0-9]*)?$/;
-	if (!Number(elem.data + 1)) {
-		elem.preventDefault();
-	} else if (currentValue !== '' && elem.inputType === 'insertText') {
-		if (!validString.test(0 + currentValue + elem.data)) {
-			elem.preventDefault();
+let timer: number;
+export function validateNumber(event: any, currentValue: string, specsObject: SpecsObject) {
+	let invalid = false;
+	const validDecimalNumber = /^\.?[0-9]+(\.[0-9]*)?$/;
+	const errorStyle = ['border-red-500', 'transition-[border-color]'];
+	const selectionStartIndex = event.target.selectionStart;
+	const selectionEndIndex = event.target.selectionEnd;
+	const preSelectString = currentValue.substring(0, selectionStartIndex);
+	const postSelectString = currentValue.substring(selectionEndIndex);
+	const selectionLength = selectionEndIndex - selectionStartIndex;
+
+	if (event.data != null) {
+		const isNotDecimalNumber = !validDecimalNumber.test(0 + currentValue + event.data);
+		const exceedsMaxValue =
+			Number(preSelectString + event.data + postSelectString) > specsObject.maxValue;
+		const insertDataTooLong =
+			currentValue.length - selectionLength + event.data.length > specsObject.maxLength;
+
+		if (isNotDecimalNumber || insertDataTooLong || exceedsMaxValue) {
+			event.preventDefault();
+			invalid = true;
 		}
+	}
+
+	if (invalid) {
+		event.target.classList.add(...errorStyle);
+		clearTimeout(timer);
+		timer = setTimeout(() => {
+			event.target.classList.remove(...errorStyle);
+		}, 200);
 	}
 }
 
@@ -108,4 +132,28 @@ export function decimalizeString(value: string) {
 	} else {
 		return value;
 	}
+}
+
+export function calcSpeed(inputEnergy: number, weight: number) {
+	return Math.sqrt(inputEnergy / keMath(weight));
+}
+
+export function mpsOut(inputEnergy: number, weight: number) {
+	return roundTo(calcSpeed(inputEnergy, weight), 2);
+}
+
+export function fpsOut(inputEnergy: number, weight: number) {
+	return roundTo(calcSpeed(inputEnergy, weight) * 3.28084, 2);
+}
+
+export function keMath(weight: number) {
+	return 0.5 * ((1 / 1000) * weight);
+}
+
+export function bbEnergyNormalizedJouleOutput(
+	selectedEnergy: string,
+	inputEnergy: number,
+	weight: number
+) {
+	return roundTo(keMath(weight) * convertSpeed(selectedEnergy, inputEnergy, 'MPS') ** 2, 2);
 }
