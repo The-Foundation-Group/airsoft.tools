@@ -9,7 +9,8 @@ export default {
 					'base-100': colors.white
 				}
 			}
-		]
+		],
+		logs: false
 	},
 	plugins: [require('daisyui')]
 };

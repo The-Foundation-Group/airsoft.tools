@@ -1,3 +1,5 @@
+import type { SpecsObject } from '$lib/types';
+
 const atm = 14.6959; //psia
 
 //Atmospheric pressure at any given elevation and temperature
@@ -92,23 +94,26 @@ export function convertSpeed(unit: string, inputSpeed: number, convertTo = '') {
 }
 
 let timer: number;
-export function validateNumber(event: any, currentValue: string, maxlength: number) {
-	const errorStyle = ['border-red-500', 'transition-[border-color]'];
+export function validateNumber(event: any, currentValue: string, specsObject: SpecsObject) {
 	let invalid = false;
-	const validString = /^\.?[0-9]+(\.[0-9]*)?$/;
+	const validDecimalNumber = /^\.?[0-9]+(\.[0-9]*)?$/;
+	const errorStyle = ['border-red-500', 'transition-[border-color]'];
+	const selectionStartIndex = event.target.selectionStart;
+	const selectionEndIndex = event.target.selectionEnd;
+	const preSelectString = currentValue.substring(0, selectionStartIndex);
+	const postSelectString = currentValue.substring(selectionEndIndex);
+	const selectionLength = selectionEndIndex - selectionStartIndex;
+
 	if (event.data != null) {
-		switch (true) {
-			case isNaN(Number(event.data + '1')):
-			// falls through
-			case event.data === ' ':
-			case !validString.test(0 + currentValue + event.data):
-			case event.target.placeholder === 'Joules' && Number(currentValue + event.data) >= 6:
-			case event.data.length >= maxlength:
-			case event.target.selectionStart >= maxlength:
-				event.preventDefault();
-				invalid = true;
-				break;
-			default:
+		const isNotDecimalNumber = !validDecimalNumber.test(0 + currentValue + event.data);
+		const exceedsMaxValue =
+			Number(preSelectString + event.data + postSelectString) > specsObject.maxValue;
+		const insertDataTooLong =
+			currentValue.length - selectionLength + event.data.length > specsObject.maxLength;
+
+		if (isNotDecimalNumber || insertDataTooLong || exceedsMaxValue) {
+			event.preventDefault();
+			invalid = true;
 		}
 	}
 
