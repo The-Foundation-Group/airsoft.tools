@@ -17,10 +17,10 @@
 
 	const bbObject: FullSpecsObject = { bb: { maxValue: 3, maxLength: 5 } };
 
-	let tempEnergyObject = {
-		inputEnergy: '',
-		bbWeight: '',
-		compareWeight: ''
+	let tempObject = {
+		inputEnergy: {value: '', inValid: false},
+		bbWeight: {value: '', inValid: false},
+		compareWeight: {value: '', inValid: false}
 	};
 
 	let valid: boolean;
@@ -28,21 +28,21 @@
 	let inputEnergy: number;
 	let bbWeight: number;
 	let comparisonBbWeight: number;
-	let energyOutput = '';
+	let output = '';
 	let comparisonOutput = '';
 
 	function calculateEnergy(event) {
 		event.preventDefault();
-		inputEnergy = Number(tempEnergyObject.inputEnergy);
-		bbWeight = Number(tempEnergyObject.bbWeight);
-		comparisonBbWeight = Number(tempEnergyObject.compareWeight);
-		energyOutput = buildOutput(inputEnergy, bbWeight);
+		inputEnergy = Number(tempObject.inputEnergy.value);
+		bbWeight = Number(tempObject.bbWeight.value);
+		comparisonBbWeight = Number(tempObject.compareWeight.value);
+		output = buildOutput(inputEnergy, bbWeight);
 		if (comparisonBbWeight) {
 			comparisonOutput = buildOutput(inputEnergy, comparisonBbWeight);
 		}
 	}
 	function buildOutput(inputEnergy, weight) {
-		let output = bbEnergyNormalizedJouleOutput(selectedEnergy, inputEnergy, weight);
+		let jouleOutput = bbEnergyNormalizedJouleOutput(selectedEnergy, inputEnergy, weight);
 		const danger = `Danger, exceeds 6J.`;
 		if (selectedEnergy === 'Joules') {
 			return `${padZeros(weight)}g: ${fpsOut(inputEnergy, weight)} FPS, ${mpsOut(
@@ -50,20 +50,21 @@
 				weight
 			)} MPS`;
 		} else {
-			if (output <= 6) {
-				return `${padZeros(weight)}g: ${padZeros(output)} joules`;
+			if (jouleOutput <= 6) {
+				return `${padZeros(weight)}g: ${padZeros(jouleOutput)} joules`;
 			} else return `${padZeros(weight)}g: ${danger}`;
 		}
 	}
 
-	$: tempEnergyObject.inputEnergy = decimalizeString(tempEnergyObject.inputEnergy);
-	$: tempEnergyObject.bbWeight = decimalizeString(tempEnergyObject.bbWeight);
-	$: tempEnergyObject.compareWeight = decimalizeString(tempEnergyObject.compareWeight);
-	$: valid = Number(tempEnergyObject.inputEnergy) > 0 && Number(tempEnergyObject.bbWeight) > 0;
+	$: tempObject.inputEnergy.value = decimalizeString(tempObject.inputEnergy.value);
+	$: tempObject.bbWeight.value = decimalizeString(tempObject.bbWeight.value);
+	$: tempObject.compareWeight.value = decimalizeString(tempObject.compareWeight.value);
+	$: valid = tempObject.inputEnergy.inValid === false && tempObject.bbWeight.inValid === false;
 </script>
 
-<div class="card w-80 bg-base-200 shadow-xl m-4">
-	<div class="card-body p-6">
+<div class="card w-80 bg-base-200 shadow-xl m-4" style="min-width: 20rem">
+	<div class="label font-bold rounded-t-lg bg-base-300 justify-center drop-shadow-md">Energy Calculator</div>
+	<div class="card-body p-6 pt-3">
 		<form id="energy-calculator-input">
 			<div class="join pb-1" style="display: flex;">
 				{#each Object.entries(energyTypes) as [energyType]}
@@ -75,17 +76,17 @@
 						aria-label={energyType}
 						value={energyType}
 						bind:group={selectedEnergy}
-						on:change={() => (tempEnergyObject.inputEnergy = '')}
+						on:change={() => (tempObject.inputEnergy.value = '')}
 					/>
 				{/each}
 			</div>
 			<input
 				class="input input-bordered w-full max-w-xs !outline-none"
 				id="energy-inputEnergy"
-				bind:value={tempEnergyObject.inputEnergy}
+				bind:value={tempObject.inputEnergy.value}
 				placeholder={`${selectedEnergy} (Max ${energyTypes[selectedEnergy].maxValue})`}
 				on:beforeinput={(event) =>
-					validateNumber(event, tempEnergyObject.inputEnergy, energyTypes[selectedEnergy])}
+					validateNumber(event, tempObject.inputEnergy.value, energyTypes[selectedEnergy])}
 				inputmode="decimal"
 				autocomplete="off"
 			/>
@@ -93,9 +94,9 @@
 			<input
 				class="input input-bordered w-full max-w-xs !outline-none"
 				id="energy-bbWeight"
-				bind:value={tempEnergyObject.bbWeight}
+				bind:value={tempObject.bbWeight.value}
 				placeholder={`0.25 (Max ${bbObject['bb'].maxValue})`}
-				on:beforeinput={(event) => validateNumber(event, tempEnergyObject.bbWeight, bbObject.bb)}
+				on:beforeinput={(event) => validateNumber(event, tempObject.bbWeight.value, bbObject.bb)}
 				inputmode="decimal"
 				autocomplete="off"
 			/>
@@ -103,22 +104,21 @@
 			<input
 				class="input input-bordered w-full max-w-xs !outline-none"
 				id="energy-bbWeightCompare"
-				bind:value={tempEnergyObject.compareWeight}
+				bind:value={tempObject.compareWeight.value}
 				placeholder={`0.25 (Max ${bbObject['bb'].maxValue})`}
 				on:beforeinput={(event) =>
-					validateNumber(event, tempEnergyObject.compareWeight, bbObject.bb)}
+					validateNumber(event, tempObject.compareWeight.value, bbObject.bb)}
 				inputmode="decimal"
 				autocomplete="off"
 			/>
 			<!--			<span class="input" />-->
 			<button
 				class="btn btn-secondary w-full mt-4 text-lg font-bold"
-				disabled={!valid}
 				on:click={calculateEnergy}>Calculate</button
 			>
 		</form>
 		<div class="label min-h-[1.75rem] items-start p-0 justify-center text-lg font-bold select-text">
-			{energyOutput}
+			{output}
 			<br />
 			{comparisonOutput}
 		</div>

@@ -37,6 +37,6 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"theme-change": "^2.5.0"
+		"theme-change": "^2.5.0",
 	}
 }
