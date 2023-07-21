@@ -27,7 +27,7 @@
 		line1 = '';
 		let tempSpring: number;
 		if (selectedSpringType === '%') {
-			tempSpring = 90 * (springStrength / 100);
+			tempSpring = mpsOut((springStrength/100) * 0.81, 0.2);
 		} else {
 			tempSpring = springStrength;
 		}
@@ -39,12 +39,8 @@
 			buildOutput(tempSpring, Number(bbWeight.value));
 		}
 	}
-	function buildOutput(inputEnergy, weight) {
-		let jouleOutput = bbEnergyNormalizedJouleOutput(
-			'MPS',
-			inputEnergy,
-			Number(springTypes[selectedSpringType].bbWeight)
-		);
+	function buildOutput(springRating, weight) {
+		let jouleOutput = bbEnergyNormalizedJouleOutput('MPS', springRating, 0.2);
 		line1 = `${fpsOut(jouleOutput, weight)} FPS, ${mpsOut(jouleOutput, weight)} MPS, ${padZeros(
 			jouleOutput
 		)}j`;

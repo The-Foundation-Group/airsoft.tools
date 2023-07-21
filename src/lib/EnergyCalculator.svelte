@@ -1,6 +1,7 @@
 <script lang="ts">
 	import {
 		bbEnergyNormalizedJouleOutput,
+		convertSpeed,
 		decimalizeString,
 		fpsOut,
 		mpsOut,
@@ -8,6 +9,7 @@
 		validateNumber
 	} from '$lib/util-lib';
 	import type {FullSpecsObject} from '$lib/types';
+	import {roundTo} from '$lib/util-lib.js';
 
 	const energyTypes: FullSpecsObject = {
 		Joules: { maxValue: 6, maxLength: 4 },
@@ -27,6 +29,7 @@
 	let inputEnergy: number;
 	let bbWeight: number;
 	let comparisonBbWeight: number;
+	let line0 = '';
 	let line1 = '';
 	let line2 = '';
 	function calculateEnergy(event) {
@@ -47,14 +50,22 @@
 		if (Number(tempObject.inputEnergy.value) > 0 && Number(tempObject.bbWeight.value) > 0) {
 			tempObject.inputEnergy.inValid = false;
 			tempObject.bbWeight.inValid = false;
+
+			if (selectedEnergy === 'FPS') {
+				line0 = roundTo(convertSpeed(inputEnergy, 'MPS'), 2) + ' MPS';
+			}
+			if (selectedEnergy === 'MPS') {
+				line0 = roundTo(convertSpeed(inputEnergy, 'FPS'), 2) + ' FPS';
+			}
+
 			line1 = buildOutput(inputEnergy, bbWeight);
+
 			if (comparisonBbWeight) {
 				line2 = buildOutput(inputEnergy, comparisonBbWeight);
 			}
 		}
 	}
 	function buildOutput(inputEnergy, weight) {
-		let jouleOutput = bbEnergyNormalizedJouleOutput(selectedEnergy, inputEnergy, weight);
 		const danger = `Danger, exceeds 6J.`;
 		if (selectedEnergy === 'Joules') {
 			return `${padZeros(weight)}g: ${fpsOut(inputEnergy, weight)} FPS, ${mpsOut(
@@ -62,6 +73,7 @@
 				weight
 			)} MPS`;
 		} else {
+			let jouleOutput = bbEnergyNormalizedJouleOutput(selectedEnergy, inputEnergy, weight);
 			if (jouleOutput <= 6) {
 				return `${padZeros(weight)}g: ${padZeros(jouleOutput)} joules`;
 			} else return `${padZeros(weight)}g: ${danger}`;
@@ -150,7 +162,9 @@
 				>Calculate
 			</button>
 		</form>
-		<div class="label min-h-[1.75rem] items-start p-0 justify-center text-lg font-bold select-text">
+		<div class="label min-h-[1.75rem] items-start p-0 justify-center text-center text-lg font-bold select-text">
+			{line0}
+			<br />
 			{line1}
 			<br />
 			{line2}

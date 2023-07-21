@@ -4,7 +4,7 @@ const atm = 14.6959; //psia
 
 export const springList = [
 	85, 90, 95, 100, 115, 110, 113, 115, 120, 125, 130, 140, 150, 160, 170, 180, 190, 200, 210, 220,
-	230, 240, 250
+	230, 240, 250, 260, 270, 280, 290, 300
 ];
 
 //Atmospheric pressure at any given elevation and temperature
@@ -32,10 +32,13 @@ export function padZeros(num: number) {
 
 //Just returns a ratio as a string
 export function volumeToBarrelRatio(cylVol: number, barrelVol: number) {
-	return roundTo(cylVol / barrelVol, 4) + ':' + '1';
+	return `${roundTo(cylVol / barrelVol, 4)}:1`;
 }
 
 export function calcBarrelVolume(barrelDiameter: number, barrelLength: number) {
+	if (barrelLength < 70) {
+		barrelLength = barrelLength * 100;
+	}
 	return Math.PI * (barrelDiameter / 2) ** 2 * barrelLength;
 }
 
@@ -82,19 +85,15 @@ export function convertToRankine(tempUnit: string, degreeInput: number) {
 	}
 }
 
-export function convertSpeed(unit: string, inputSpeed: number, convertTo = '') {
-	if (convertTo === unit) {
-		return inputSpeed;
-	} else {
-		switch (convertTo) {
-			case 'FPS':
-				return inputSpeed * 3.28084;
-			case 'MPS':
-				return inputSpeed * 0.3048;
-			default:
-				console.log('Speed conversion failure.');
-				return inputSpeed;
-		}
+export function convertSpeed(inputSpeed: number, convertTo: string) {
+	switch (convertTo) {
+		case 'FPS':
+			return inputSpeed * 3.28084;
+		case 'MPS':
+			return inputSpeed * 0.3048;
+		default:
+			console.log('Unknown speed, conversion failed.');
+			return inputSpeed;
 	}
 }
 
@@ -160,5 +159,11 @@ export function bbEnergyNormalizedJouleOutput(
 	inputEnergy: number,
 	weight: number
 ) {
-	return roundTo(keMath(weight) * convertSpeed(selectedEnergy, inputEnergy, 'MPS') ** 2, 2);
+	let mps: number;
+	if (selectedEnergy === 'MPS') {
+		mps = inputEnergy;
+	} else {
+		mps = convertSpeed(inputEnergy, 'MPS');
+	}
+	return roundTo(keMath(weight) * mps ** 2, 2);
 }
