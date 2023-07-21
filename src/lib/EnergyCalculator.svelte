@@ -23,7 +23,6 @@
 		compareWeight: { value: '', inValid: false }
 	};
 
-	let valid: boolean;
 	let selectedEnergy = 'Joules';
 	let inputEnergy: number;
 	let bbWeight: number;
@@ -85,7 +84,7 @@
 				<li>Joules: 6</li>
 				<li>FPS: 750</li>
 				<li>MPS: 320</li>
-				<li>BB weight (grams): 3</li>
+				<li>BB weight: 3 (grams)</li>
 			</ul>
 		</div>
 	</div>

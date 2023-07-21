@@ -56,11 +56,11 @@
 <div class="card w-80 bg-base-200 shadow-xl m-4 min-h-min" style="min-width: 20rem">
 	<div tabindex="0" class="collapse collapse-mod collapse-arrow bg-base-300 drop-shadow-md">
 		<div class="collapse-title collapse-title-mod label text-xl font-bold" style="height: 2.5rem">
-			Spring Rating
+			Spring to Velocity
 		</div>
 		<div class="collapse-content text-left">
 			<p class="font-bold">Data is approximate and is based on manufacturer reported values.</p>
-			<p>Input is in grams, and maxes out at 3.</p>
+			<p>BB weight max value: 3 (grams)</p>
 		</div>
 	</div>
 	<div class="card-body p-6 pt-3">
