@@ -2,6 +2,11 @@ import type { SpecsObject } from '$lib/types';
 
 const atm = 14.6959; //psia
 
+export const springList = [
+	85, 90, 95, 100, 115, 110, 113, 115, 120, 125, 130, 140, 150, 160, 170, 180, 190, 200, 210, 220,
+	230, 240, 250
+];
+
 //Atmospheric pressure at any given elevation and temperature
 export function atmAtElevation(altitudeMeters: number, rankineDegrees: number) {
 	return roundTo(
@@ -97,7 +102,7 @@ let timer: number;
 export function validateNumber(event: any, currentValue: string, specsObject: SpecsObject) {
 	let invalid = false;
 	const validDecimalNumber = /^\.?[0-9]+(\.[0-9]*)?$/;
-	const errorStyle = ['border-red-500', 'transition-[border-color]'];
+	const errorStyle = ['border-red-500', 'border-2', 'transition-[border-color]'];
 	const selectionStartIndex = event.target.selectionStart;
 	const selectionEndIndex = event.target.selectionEnd;
 	const preSelectString = currentValue.substring(0, selectionStartIndex);

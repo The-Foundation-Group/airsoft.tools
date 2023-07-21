@@ -3,5 +3,18 @@
 @tailwind utilities;
 
 .emptyInput {
-@apply bg-red-100
+	@apply bg-red-100;
+}
+
+.validButton {
+	@apply btn-secondary;
+}
+
+.collapse-title-mod,
+:where(.collapse > input[type='radio']) {
+	min-height: 2rem !important;
+}
+
+.collapse-mod {
+	border-radius: 0.5rem 0.5rem 0 0 !important;
 }
