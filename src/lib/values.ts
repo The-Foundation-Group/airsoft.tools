@@ -13,7 +13,7 @@ export const cylTypes = {
 		'VSR Bore Up (PDI)': { diameter: 38600, strokeLength: 0, cylHead: 0 },
 		'SRS (Pull)': { diameter: 41000, strokeLength: 0, cylHead: 0 },
 		'SRS (Push)': { diameter: 28000, strokeLength: 0, cylHead: 0 },
-		'Ares Striker': { diameter: 27100, strokeLength: 0, cylHead: 0 },
+		'Ares Striker': { diameter: 23.75, strokeLength: 65.4, cylHead: 8.75 },
 		'APS2/L96': { diameter: 33000, strokeLength: 0, cylHead: 0 }
 	},
 	AEG: {
