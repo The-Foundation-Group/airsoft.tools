@@ -5,10 +5,10 @@
 		fpsOut,
 		mpsOut,
 		padZeros,
-		springList,
 		validateNumber
 	} from '$lib/util-lib';
 	import type {SpecsObject} from '$lib/types';
+	import {springList} from '$lib/values';
 
 	const springTypes = {
 		M: { bbWeight: '0.20' },
@@ -20,28 +20,30 @@
 	let springStrength = 120;
 	let selectedSpringType = 'M';
 	let bbWeight = { value: '', inValid: false };
-	let line1 = '';
+	let conversion = '';
 
 	function calculateEnergy(event) {
 		event.preventDefault();
-		line1 = '';
+		conversion = '';
 		let tempSpring: number;
 		if (selectedSpringType === '%') {
-			tempSpring = mpsOut((springStrength/100) * 0.81, 0.2);
+			tempSpring = mpsOut((springStrength / 100) * 0.81, 0.2);
 		} else {
 			tempSpring = springStrength;
 		}
 
 		if (Number(bbWeight.value) === 0) {
 			bbWeight.inValid = true;
-		} else {
+		}
+		if (Number(bbWeight.value) > 0) {
 			bbWeight.inValid = false;
 			buildOutput(tempSpring, Number(bbWeight.value));
 		}
+
 	}
 	function buildOutput(springRating, weight) {
 		let jouleOutput = bbEnergyNormalizedJouleOutput('MPS', springRating, 0.2);
-		line1 = `${fpsOut(jouleOutput, weight)} FPS, ${mpsOut(jouleOutput, weight)} MPS, ${padZeros(
+		conversion = `${fpsOut(jouleOutput, weight)} FPS, ${mpsOut(jouleOutput, weight)} MPS, ${padZeros(
 			jouleOutput
 		)}j`;
 	}
@@ -75,14 +77,16 @@
 				{/each}
 				<select
 					bind:value={springStrength}
-					class="select select-primary w-32 max-w-xs join-item focus:outline-none focus:outline-[3px] focus:outline-primary focus:outline-offset-[-3px]"
+					class="select select-primary w-32 max-w-xs join-item focus:outline-none focus:outline-[3px] focus:outline-primary focus:outline-offset-[-3px] pl-3 pr-3"
 				>
 					{#each springList as spring}
 						<option value={spring}>{spring}</option>
 					{/each}
 				</select>
 			</div>
-			<label class="label pt-3 font-bold" for="energy-bbWeight">BB Weight</label>
+			<label class="label pt-2 pb-1 font-bold" for="energy-bbWeight">
+				<span class="label-text">BB Weight</span>
+			</label>
 			<input
 				class="input input-bordered w-full max-w-xs focus:ring-2 focus:ring-inset ring-slate-300 !outline-none transition-colors"
 				class:emptyInput={bbWeight.inValid && bbWeight.value === ''}
@@ -98,11 +102,11 @@
 				class="btn btn-warning w-full mt-4 text-lg font-bold"
 				on:click={calculateEnergy}
 				class:validButton={Number(bbWeight.value) > 0}
-				>Calculate
+				>Velocity
 			</button>
 		</form>
 		<div class="label min-h-[1.75rem] items-start p-0 justify-center text-lg font-bold select-text">
-			{line1}
+			{conversion}
 		</div>
 	</div>
 </div>

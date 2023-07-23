@@ -2,11 +2,6 @@ import type { SpecsObject } from '$lib/types';
 
 const atm = 14.6959; //psia
 
-export const springList = [
-	85, 90, 95, 100, 115, 110, 113, 115, 120, 125, 130, 140, 150, 160, 170, 180, 190, 200, 210, 220,
-	230, 240, 250, 260, 270, 280, 290, 300
-];
-
 //Atmospheric pressure at any given elevation and temperature
 export function atmAtElevation(altitudeMeters: number, rankineDegrees: number) {
 	return roundTo(
@@ -21,25 +16,27 @@ export function roundTo(input: number, decimalAmount: number) {
 	return Math.round((input + Number.EPSILON) * decimals) / decimals;
 }
 
-export function padZeros(num: number) {
+export function padZeros(input: number, length = 4) {
 	// adds some prettiness to the strings
-	if (Number.isInteger(num)) {
-		return num + '.0';
+	if (Number.isInteger(input)) {
+		const temp = String(input) + '.';
+		return temp.padEnd(length, '0');
 	}
 	// makes decimal number eg. 0.2 > 0.20
-	return String(num).padEnd(4, '0');
+	return String(input).padEnd(length, '0');
 }
 
 //Just returns a ratio as a string
 export function volumeToBarrelRatio(cylVol: number, barrelVol: number) {
-	return `${roundTo(cylVol / barrelVol, 4)}:1`;
+	return `${roundTo(cylVol / barrelVol, 3)}:1`;
 }
 
-export function calcBarrelVolume(barrelDiameter: number, barrelLength: number) {
-	if (barrelLength < 70) {
-		barrelLength = barrelLength * 100;
-	}
-	return Math.PI * (barrelDiameter / 2) ** 2 * barrelLength;
+export function calcVolume(diameter: number, length: number) {
+	return Math.PI * (diameter / 2) ** 2 * length;
+}
+
+export function solveFromVolume(diameter: number, volume: number) {
+	return (4 * volume) / (Math.PI * diameter ** 2);
 }
 
 function fmod(a: number, b: number) {

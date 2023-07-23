@@ -29,13 +29,13 @@
 	let inputEnergy: number;
 	let bbWeight: number;
 	let comparisonBbWeight: number;
-	let line0 = '';
-	let line1 = '';
-	let line2 = '';
+	let speedConversion = '';
+	let primaryOutput = '';
+	let comparisonOutput = '';
 	function calculateEnergy(event) {
 		event.preventDefault();
-		line1 = '';
-		line2 = '';
+		primaryOutput = '';
+		comparisonOutput = '';
 		inputEnergy = Number(tempObject.inputEnergy.value);
 		bbWeight = Number(tempObject.bbWeight.value);
 		comparisonBbWeight = Number(tempObject.compareWeight.value);
@@ -52,31 +52,31 @@
 			tempObject.bbWeight.inValid = false;
 
 			if (selectedEnergy === 'FPS') {
-				line0 = roundTo(convertSpeed(inputEnergy, 'MPS'), 2) + ' MPS';
+				speedConversion = roundTo(convertSpeed(inputEnergy, 'MPS'), 2) + ' MPS';
 			}
 			if (selectedEnergy === 'MPS') {
-				line0 = roundTo(convertSpeed(inputEnergy, 'FPS'), 2) + ' FPS';
+				speedConversion = roundTo(convertSpeed(inputEnergy, 'FPS'), 2) + ' FPS';
 			}
 
-			line1 = buildOutput(inputEnergy, bbWeight);
+			primaryOutput = buildOutput(inputEnergy, bbWeight);
 
 			if (comparisonBbWeight) {
-				line2 = buildOutput(inputEnergy, comparisonBbWeight);
+				comparisonOutput = buildOutput(inputEnergy, comparisonBbWeight);
 			}
 		}
 	}
 	function buildOutput(inputEnergy, weight) {
 		const danger = `Danger, exceeds 6J.`;
 		if (selectedEnergy === 'Joules') {
-			return `${padZeros(weight)}g: ${fpsOut(inputEnergy, weight)} FPS, ${mpsOut(
+			return `${padZeros(weight, 3)}g: ${fpsOut(inputEnergy, weight)} FPS, ${mpsOut(
 				inputEnergy,
 				weight
 			)} MPS`;
 		} else {
 			let jouleOutput = bbEnergyNormalizedJouleOutput(selectedEnergy, inputEnergy, weight);
 			if (jouleOutput <= 6) {
-				return `${padZeros(weight)}g: ${padZeros(jouleOutput)} joules`;
-			} else return `${padZeros(weight)}g: ${danger}`;
+				return `${padZeros(weight, 3)}g: ${padZeros(jouleOutput)} joules`;
+			} else return `${padZeros(weight, 3)}g: ${danger}`;
 		}
 	}
 
@@ -131,7 +131,9 @@
 				inputmode="decimal"
 				autocomplete="off"
 			/>
-			<label class="label pt-3 font-bold" for="energy-bbWeight">BB Weight</label>
+			<label class="label pt-2 pb-1 font-bold" for="energy-bbWeight">
+				<span class="label-text">BB Weight</span>
+			</label>
 			<input
 				class="input input-bordered w-full max-w-xs focus:ring-2 focus:ring-inset ring-slate-300 !outline-none"
 				class:emptyInput={tempObject.bbWeight.inValid && Number(tempObject.bbWeight.value) === 0}
@@ -142,7 +144,9 @@
 				inputmode="decimal"
 				autocomplete="off"
 			/>
-			<label class="label pt-3 font-bold" for="energy-bbWeightCompare">Comparison BB Weight</label>
+			<label class="label pt-2 pb-1 font-bold" for="energy-bbWeightCompare">
+				<span class="label-text">Comparison BB Weight</span>
+			</label>
 			<input
 				class="input input-bordered w-full max-w-xs focus:ring-2 focus:ring-inset ring-slate-300 !outline-none"
 				id="energy-bbWeightCompare"
@@ -159,15 +163,15 @@
 				on:click={calculateEnergy}
 				class:validButton={Number(tempObject.inputEnergy.value) > 0 &&
 					Number(tempObject.bbWeight.value) > 0}
-				>Calculate
+				>Energy
 			</button>
 		</form>
 		<div class="label min-h-[1.75rem] items-start p-0 justify-center text-center text-lg font-bold select-text">
-			{line0}
+			{speedConversion}
 			<br />
-			{line1}
+			{primaryOutput}
 			<br />
-			{line2}
+			{comparisonOutput}
 		</div>
 	</div>
 </div>
