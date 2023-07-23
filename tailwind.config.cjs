@@ -12,5 +12,5 @@ export default {
 		],
 		logs: false
 	},
-	plugins: [require('daisyui')]
+	plugins: [require('daisyui')],
 };
