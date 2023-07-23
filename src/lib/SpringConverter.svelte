@@ -42,7 +42,7 @@
 
 	}
 	function buildOutput(springRating, weight) {
-		let jouleOutput = bbEnergyNormalizedJouleOutput('MPS', springRating, 0.2);
+		let jouleOutput = bbEnergyNormalizedJouleOutput('MPS', springRating, Number(springTypes[selectedSpringType].bbWeight));
 		conversion = `${fpsOut(jouleOutput, weight)} FPS, ${mpsOut(jouleOutput, weight)} MPS, ${padZeros(
 			jouleOutput
 		)}j`;
