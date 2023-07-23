@@ -16,22 +16,27 @@ export function roundTo(input: number, decimalAmount: number) {
 	return Math.round((input + Number.EPSILON) * decimals) / decimals;
 }
 
-export function padZeros(num: number) {
+export function padZeros(input: number, length = 4) {
 	// adds some prettiness to the strings
-	if (Number.isInteger(num)) {
-		return num + '.0';
+	if (Number.isInteger(input)) {
+		const temp = String(input) + '.';
+		return temp.padEnd(length, '0');
 	}
 	// makes decimal number eg. 0.2 > 0.20
-	return String(num).padEnd(4, '0');
+	return String(input).padEnd(length, '0');
 }
 
 //Just returns a ratio as a string
 export function volumeToBarrelRatio(cylVol: number, barrelVol: number) {
-	return roundTo(cylVol / barrelVol, 4) + ':' + '1';
+	return `${roundTo(cylVol / barrelVol, 3)}:1`;
 }
 
-export function calcBarrelVolume(barrelDiameter: number, barrelLength: number) {
-	return Math.PI * (barrelDiameter / 2) ** 2 * barrelLength;
+export function calcVolume(diameter: number, length: number) {
+	return Math.PI * (diameter / 2) ** 2 * length;
+}
+
+export function solveFromVolume(diameter: number, volume: number) {
+	return (4 * volume) / (Math.PI * diameter ** 2);
 }
 
 function fmod(a: number, b: number) {
@@ -77,19 +82,15 @@ export function convertToRankine(tempUnit: string, degreeInput: number) {
 	}
 }
 
-export function convertSpeed(unit: string, inputSpeed: number, convertTo = '') {
-	if (convertTo === unit) {
-		return inputSpeed;
-	} else {
-		switch (convertTo) {
-			case 'FPS':
-				return inputSpeed * 3.28084;
-			case 'MPS':
-				return inputSpeed * 0.3048;
-			default:
-				console.log('Speed conversion failure.');
-				return inputSpeed;
-		}
+export function convertSpeed(inputSpeed: number, convertTo: string) {
+	switch (convertTo) {
+		case 'FPS':
+			return inputSpeed * 3.28084;
+		case 'MPS':
+			return inputSpeed * 0.3048;
+		default:
+			console.log('Unknown speed, conversion failed.');
+			return inputSpeed;
 	}
 }
 
@@ -97,7 +98,7 @@ let timer: number;
 export function validateNumber(event: any, currentValue: string, specsObject: SpecsObject) {
 	let invalid = false;
 	const validDecimalNumber = /^\.?[0-9]+(\.[0-9]*)?$/;
-	const errorStyle = ['border-red-500', 'transition-[border-color]'];
+	const errorStyle = ['border-red-500', 'border-2', 'transition-[border-color]'];
 	const selectionStartIndex = event.target.selectionStart;
 	const selectionEndIndex = event.target.selectionEnd;
 	const preSelectString = currentValue.substring(0, selectionStartIndex);
@@ -155,5 +156,11 @@ export function bbEnergyNormalizedJouleOutput(
 	inputEnergy: number,
 	weight: number
 ) {
-	return roundTo(keMath(weight) * convertSpeed(selectedEnergy, inputEnergy, 'MPS') ** 2, 2);
+	let mps: number;
+	if (selectedEnergy === 'MPS') {
+		mps = inputEnergy;
+	} else {
+		mps = convertSpeed(inputEnergy, 'MPS');
+	}
+	return roundTo(keMath(weight) * mps ** 2, 2);
 }
