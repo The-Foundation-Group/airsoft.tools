@@ -20,9 +20,9 @@
 	let bbWeight = { value: '', inValid: false };
 	let cylData = { diameter: 0, strokeLength: 0, cylHead: 0 };
 	let barrelDiameter = 6.03;
-	let currentRatio = '';
-	let bestRatio = '';
-	let recommendedBarrel = '';
+	let currentRatioString = '';
+	let bestRatioString = '';
+	let recommendedBarrelString = '';
 	let gunType = ['AEG', 'Bolt'];
 	const bbObject: SpecsObject = { maxValue: 3, maxLength: 5 };
 	const barrelLengthObject: SpecsObject = { maxValue: 700, maxLength: 5 };
@@ -30,9 +30,9 @@
 
 	function calculateRatio(event) {
 		event.preventDefault();
-		currentRatio = '';
-		bestRatio = '';
-		recommendedBarrel = '';
+		currentRatioString = '';
+		bestRatioString = '';
+		recommendedBarrelString = '';
 
 		if (Number(barrelLength.value) === 0) {
 			barrelLength.inValid = true;
@@ -54,23 +54,27 @@
 			cylData.strokeLength - (Number(cylReduction.value) + cylData.cylHead)
 		);
 		let barrelVolume = calcVolume(barrelDiameter, Number(barrelLength.value));
-		let idealRatio = idealCylToBarrelRatio(Number(bbWeight.value));
-		currentRatio = `Current: ${volumeToBarrelRatio(cylVolume, barrelVolume)}`;
+		let currentRatio = volumeToBarrelRatio(cylVolume, barrelVolume);
+		currentRatioString = `Current: ${currentRatio}:1`;
 		if (Number(bbWeight.value) > 0) {
-			let trueBarrel = roundTo(solveFromVolume(6.05, cylVolume / idealRatio), 0);
-			let closestBarrelVolume = cylVolume / idealRatio;
-			let closestRatio = volumeToBarrelRatio(cylVolume, closestBarrelVolume);
-			bestRatio = `Ideal: ${roundTo(idealRatio, 3)}:1, ${trueBarrel}mm`;
-			if (selectedCylType === 'AEG') {
-				recommendedBarrel = `Closest is ${findNearest(
-					trueBarrel,
-					aegBarrelList
-				)}mm at ${closestRatio}`;
+			let idealRatio = roundTo(idealCylToBarrelRatio(Number(bbWeight.value)), 3);
+			if (currentRatio <= idealRatio + 0.1 && currentRatio >= idealRatio - 0.05) {
+				currentRatioString = `Close enough!`;
+				bestRatioString = ` Current: ${currentRatio}:1, Ideal: ${idealRatio}:1`;
 			} else {
-				recommendedBarrel = `Closest is ${findNearest(
-					trueBarrel,
-					gbbBarrelList
-				)}mm at ${closestRatio}`;
+				let trueBarrel = roundTo(solveFromVolume(barrelDiameter, cylVolume / idealRatio), 0);
+				bestRatioString = `Ideal: ${idealRatio}:1, ${trueBarrel}mm`;
+				let closestBarrel;
+				let closestRatio;
+				if (selectedCylType === 'AEG') {
+					closestBarrel = findNearest(trueBarrel, aegBarrelList);
+				} else {
+					closestBarrel = findNearest(trueBarrel, gbbBarrelList);
+				}
+
+				let closestBarrelVolume = calcVolume(6.03, closestBarrel);
+				closestRatio = volumeToBarrelRatio(cylVolume, closestBarrelVolume);
+				recommendedBarrelString = `Closest is ${closestBarrel}mm at ${closestRatio}:1`;
 			}
 		}
 	}
@@ -188,12 +192,14 @@
 				>Ratio
 			</button>
 		</form>
-		<div class="label min-h-[1.75rem] items-start p-0 justify-center text-lg font-bold select-text">
-			{currentRatio}
+		<div
+			class="label min-h-[1.75rem] items-start p-0 justify-center text-center text-lg font-bold select-text"
+		>
+			{currentRatioString}
 			<br />
-			{bestRatio}
+			{bestRatioString}
 			<br />
-			{recommendedBarrel}
+			{recommendedBarrelString}
 		</div>
 	</div>
 </div>
