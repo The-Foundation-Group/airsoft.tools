@@ -28,7 +28,7 @@ export function padZeros(input: number, length = 4) {
 
 //Just returns a ratio as a string
 export function volumeToBarrelRatio(cylVol: number, barrelVol: number) {
-	return `${roundTo(cylVol / barrelVol, 3)}:1`;
+	return roundTo(cylVol / barrelVol, 3);
 }
 
 export function calcVolume(diameter: number, length: number) {
