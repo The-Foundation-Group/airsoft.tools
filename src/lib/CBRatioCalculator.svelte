@@ -86,10 +86,13 @@
 		for (let i = 0; i < data.length; ++i) {
 			if (Math.abs(find - data[i].barrelLength) <= Math.abs(find - result)) {
 				result = data[i].barrelLength;
+			} else if (result === 0) {
+				return data[i].barrelLength;
 			} else {
-				return result;
+				return result
 			}
 		}
+		return result
 	}
 	$: cylData = cylTypes[selectedCylType][cylValue.value];
 	$: bbWeight.value = decimalizeString(bbWeight.value);
