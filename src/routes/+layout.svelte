@@ -52,7 +52,7 @@
 			<nav
 				transition:slide={{ delay: 10, duration: 150 }}
 				class:shadow-lg={!sidebarOpen}
-				class="flex-grow px-4 pb-4 w-screen md:w-64 md:min-h-screen md:pb-0 md:overflow-y-auto z-100 bg-gray-100"
+				class="flex-grow px-4 pb-4 w-screen md:w-64 md:min-h-screen md:pb-0 md:overflow-y-auto bg-gray-100"
 			>
 				<button
 					on:click|stopPropagation={() => (dropdownOpen = !dropdownOpen)}
