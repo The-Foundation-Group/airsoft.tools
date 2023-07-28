@@ -9,8 +9,10 @@
 		validateNumber,
 		volumeToBarrelRatio
 	} from '$lib/util-lib';
-	import {aegBarrelList, barrelDiameters, cylTypes, gbbBarrelList} from '$lib/values';
-	import type {SpecsObject} from '$lib/types';
+	import { aegBarrelList, barrelDiameters, cylTypes, gbbBarrelList } from '$lib/values';
+	import { clickoutside } from '@svelte-put/clickoutside';
+	import { slide } from 'svelte/transition';
+	import type { SpecsObject } from '$lib/types';
 
 	let selectedCylType = 'AEG';
 
@@ -27,6 +29,7 @@
 	const bbObject: SpecsObject = { maxValue: 3, maxLength: 5 };
 	const barrelLengthObject: SpecsObject = { maxValue: 700, maxLength: 5 };
 	const cylObject: SpecsObject = { maxValue: 20, maxLength: 5 };
+	let infoOpen = false;
 
 	function calculateRatio(event) {
 		event.preventDefault();
@@ -93,15 +96,40 @@
 </script>
 
 <div class="card w-80 bg-base-200 shadow-xl m-4 min-h-min" style="min-width: 20rem">
-	<div tabindex="0" class="collapse collapse-mod collapse-arrow bg-base-300 drop-shadow-md">
-		<div class="collapse-title collapse-title-mod label text-xl font-bold" style="height: 2.5rem">
-			Cylinder Ratio
-		</div>
-		<div class="collapse-content text-left">
-			<p>
-				Max piston stroke and cyl head thickness are taken into account for volume calculations.
-			</p>
-		</div>
+	<div
+		role="button"
+		tabindex="0"
+		class="collapse collapse-mod collapse-arrow bg-base-300 drop-shadow-md"
+	>
+		<button
+			use:clickoutside
+			on:clickoutside={() => (infoOpen = false)}
+			on:click={() => (infoOpen = !infoOpen)}
+			class:shadow-lg={infoOpen}
+			class="label text-xl font-bold px-4 py-2 text-gray-900 bg-transparent z-10"
+			style="height: 2.5rem"
+		>
+			<span>Cylinder Ratio</span>
+			<svg
+				fill="currentColor"
+				viewBox="0 0 20 20"
+				class:rotate-180={infoOpen}
+				class:rotate-0={!infoOpen}
+				class="inline w-6 h-6 transition-transform duration-150 transform"
+				><path
+					fill-rule="evenodd"
+					d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+					clip-rule="evenodd"
+				/></svg
+			>
+		</button>
+		{#if infoOpen}
+			<div class="px-4 pb-2 py-1 bg-gray-300" transition:slide={{ delay: 10, duration: 150 }}>
+				<p>
+					Max piston stroke and cyl head thickness are taken into account for volume calculations.
+				</p>
+			</div>
+		{/if}
 	</div>
 	<div class="card-body p-6 pt-3">
 		<form id="energy-calculator-input">
@@ -128,7 +156,6 @@
 				>
 					{#each Object.entries(cylTypes[selectedCylType]) as [name, data]}
 						<option disabled={data.strokeLength === 0} value={name}>{`${name}`}</option>
-						<!--						${data.strokeLength > 0 ? `: ${data.strokeLength}mm` : ''}-->
 					{/each}
 				</select>
 			</div>

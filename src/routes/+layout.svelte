@@ -15,8 +15,8 @@
 	const breakpoints = { xs: 320, sm: 576, md: 768, lg: 1024, xl: 1280, '2xl': 1536 };
 	const mainPages = {
 		'/database': 'Database',
-		'/spring-form': 'Spring Data',
-		'/tof-form': 'Time of Flight Data'
+		'/spring-form': 'Spring Data Collection',
+		'/tof-form': 'Time of Flight Data Collection'
 	};
 	const calculatorPages = {
 		'/calculators': 'All',
@@ -64,21 +64,21 @@
 						on:click|stopPropagation={() => (dropdownOpen = !dropdownOpen)}
 						class="py-0.5 mt-1 parent w-full"
 					>
-						<div class:!bg-gray-200={isCalcPage} class="menuItem child transition-all">
+						<span class:!bg-gray-200={isCalcPage} class="menuItem child transition-all">
 							<span>Calculators</span>
 							<svg
 								fill="currentColor"
 								viewBox="0 0 20 20"
 								class:rotate-180={dropdownOpen}
 								class:rotate-0={!dropdownOpen}
-								class="inline w-4 h-4 mt-1 ml-1 transition-transform duration-200 transform md:-mt-1"
+								class="inline w-4 h-4 mt-1 ml-1 transition-transform duration-150 transform md:-mt-1"
 								><path
 									fill-rule="evenodd"
 									d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
 									clip-rule="evenodd"
 								/></svg
 							>
-						</div>
+						</span>
 					</button>
 					{#if dropdownOpen}
 						<div

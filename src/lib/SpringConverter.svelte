@@ -9,6 +9,8 @@
 	} from '$lib/util-lib';
 	import type {SpecsObject} from '$lib/types';
 	import {springList} from '$lib/values';
+	import {clickoutside} from '@svelte-put/clickoutside';
+	import {slide} from 'svelte/transition';
 
 	const springTypes = {
 		M: { bbWeight: '0.20' },
@@ -21,6 +23,7 @@
 	let selectedSpringType = 'M';
 	let bbWeight = { value: '', inValid: false };
 	let conversion = '';
+	let infoOpen = false;
 
 	function calculateEnergy(event) {
 		event.preventDefault();
@@ -52,14 +55,40 @@
 </script>
 
 <div class="card w-80 bg-base-200 shadow-xl m-4 min-h-min" style="min-width: 20rem">
-	<div tabindex="0" class="collapse collapse-mod collapse-arrow bg-base-300 drop-shadow-md">
-		<div class="collapse-title collapse-title-mod label text-xl font-bold" style="height: 2.5rem">
-			Spring to Energy
-		</div>
-		<div class="collapse-content text-left">
-			<p class="font-bold">Data is approximate and is based on manufacturer reported values.</p>
-			<p>BB weight max value: 3 (grams)</p>
-		</div>
+
+	<div
+			role="button"
+			tabindex="0"
+			class="collapse collapse-mod collapse-arrow bg-base-300 drop-shadow-md"
+	>
+		<button
+				use:clickoutside
+				on:clickoutside={() => (infoOpen = false)}
+				on:click={() => (infoOpen = !infoOpen)}
+				class:shadow-lg={infoOpen}
+				class="label text-xl font-bold px-4 py-2 text-gray-900 bg-transparent z-10"
+				style="height: 2.5rem"
+		>
+			<span>Spring to Energy</span>
+			<svg
+					fill="currentColor"
+					viewBox="0 0 20 20"
+					class:rotate-180={infoOpen}
+					class:rotate-0={!infoOpen}
+					class="inline w-6 h-6 transition-transform duration-150 transform"
+			><path
+					fill-rule="evenodd"
+					d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+					clip-rule="evenodd"
+			/></svg
+			>
+		</button>
+		{#if infoOpen}
+			<div class="px-4 pb-2 py-1 bg-gray-300" transition:slide={{ delay: 10, duration: 150 }}>
+				<p class="font-bold">Data is approximate and is based on manufacturer reported values.</p>
+				<p>BB weight max value: 3 (grams)</p>
+			</div>
+		{/if}
 	</div>
 	<div class="card-body p-6 pt-3">
 		<form id="energy-calculator-input">
