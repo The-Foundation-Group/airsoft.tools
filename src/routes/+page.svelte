@@ -2,7 +2,7 @@
 </script>
 
 <svelte:head>
-	<title>Home</title>
+	<title>Airsoft Tools</title>
 </svelte:head>
 <main>
  <p>Homepage. Will add something here.</p>
