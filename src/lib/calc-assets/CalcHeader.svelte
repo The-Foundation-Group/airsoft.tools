@@ -1,5 +1,5 @@
 <script>
-	import {clickoutside} from '@svelte-put/clickoutside';
+	import { clickoutside } from '@svelte-put/clickoutside';
 
 	export let open = false;
 	export let title;
@@ -30,6 +30,6 @@
 	.calc-top {
 		border-radius: 0.5rem 0.5rem 0 0;
 		height: 2.5rem;
-		@apply label w-full text-xl font-bold px-4 py-2 text-gray-900 z-10 bg-base-300 drop-shadow-lg;
+		@apply label w-full text-xl font-bold px-4 py-2 text-gray-900 z-[2] bg-base-300 drop-shadow-lg;
 	}
 </style>

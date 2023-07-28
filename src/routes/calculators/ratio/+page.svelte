@@ -1,5 +1,5 @@
 <script>
-	import CBRatioCalculator from "$lib/CBRatioCalculator.svelte";
+	import CBRatioCalculator from '$lib/calc-assets/CBRatioCalculator.svelte';
 </script>
 
 <svelte:head>

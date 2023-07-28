@@ -1,25 +1,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-.emptyInput {
-	@apply bg-red-100;
-}
-
-.validButton {
-	@apply btn-secondary;
-}
-
-.collapse-title-mod,
-:where(.collapse > input[type='radio']) {
-	min-height: 2rem !important;
-}
-
-
-
-.menuItem {
-	@apply px-4 py-2 label text-sm font-semibold text-gray-900 bg-transparent rounded-lg focus:text-gray-900 focus:bg-gray-200 focus:outline-none;
-}
-.subMenuItem {
-	@apply px-4 py-2 label text-sm font-semibold bg-transparent rounded-lg focus:text-gray-900 focus:bg-gray-200 focus:outline-none;
-}

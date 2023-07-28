@@ -1,16 +1,11 @@
-<!--<nav>-->
-<!--	<a href="/">Home</a>-->
-<!--	<a href="/database">Database</a>-->
-<!--</nav>-->
-
 <script>
-	import {clickoutside} from '@svelte-put/clickoutside';
-	import {slide} from 'svelte/transition';
-	import {page} from '$app/stores';
+	import { clickoutside } from '@svelte-put/clickoutside';
+	import { slide } from 'svelte/transition';
+	import { page } from '$app/stores';
 	import '../app.css';
 	import Menu from '$lib/menu/Menu.svelte';
-	import {onMount} from 'svelte';
-	import {themeChange} from 'theme-change';
+	import { onMount } from 'svelte';
+	import { themeChange } from 'theme-change';
 
 	const breakpoints = { xs: 320, sm: 576, md: 768, lg: 1024, xl: 1280, '2xl': 1536 };
 	const mainPages = {
@@ -88,10 +83,7 @@
 							<div class="px-2 py-2 bg-white rounded-md shadow">
 								{#each Object.entries(calculatorPages) as [path, title]}
 									<a class="py-0.5 block parent" on:click={() => (sidebarOpen = false)} href={path}
-										><div
-											class="subMenuItem child transition-all"
-											class:!bg-gray-200={path === currentPath}
-										>
+										><div class="menuItem" class:!bg-gray-200={path === currentPath}>
 											{title}
 										</div>
 									</a>
@@ -102,7 +94,7 @@
 				</div>
 				{#each Object.entries(mainPages) as [path, title]}
 					<a class="py-0.5 block parent" on:click={() => (sidebarOpen = false)} href={path}>
-						<div class:!bg-gray-200={path === currentPath} class="menuItem child transition-all">
+						<div class:!bg-gray-200={path === currentPath} class="menuItem text-gray-900">
 							{title}
 						</div>
 					</a>
@@ -118,9 +110,15 @@
 </div>
 
 <style>
-	.parent:hover .child {
-		@apply bg-gray-200;
-		@apply text-gray-900;
-		@apply rounded-lg;
+	.menuItem {
+		@apply px-4 py-2 label text-sm font-semibold rounded-lg transition-all;
+	}
+
+	.menuItem:focus {
+		@apply text-gray-900 bg-gray-200;
+	}
+
+	.parent:hover .menuItem {
+		@apply text-gray-900 bg-gray-200;
 	}
 </style>

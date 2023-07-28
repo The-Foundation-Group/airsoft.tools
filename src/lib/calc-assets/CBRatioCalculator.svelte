@@ -12,7 +12,7 @@
 	import { aegBarrelList, barrelDiameters, cylTypes, gbbBarrelList } from '$lib/values';
 	import { slide } from 'svelte/transition';
 	import type { SpecsObject } from '$lib/types';
-	import CalcHeader from '$lib/CalcHeader.svelte';
+	import CalcHeader from '$lib/calc-assets/CalcHeader.svelte';
 
 	let selectedCylType = 'AEG';
 
@@ -98,21 +98,21 @@
 	$: bbWeight.value = decimalizeString(bbWeight.value);
 </script>
 
-<div class="card w-80 bg-base-200 shadow-xl m-4 min-h-min" style="min-width: 20rem">
+<div class="calcCard">
 	<CalcHeader title="Cylinder Ratio" bind:open={infoOpen} />
 	{#if infoOpen}
-		<div class="px-4 pb-2 py-1 bg-gray-300" transition:slide={{ delay: 10, duration: 150 }}>
+		<div class="calcInfoBox" transition:slide={{ delay: 10, duration: 150 }}>
 			<p>
 				Max piston stroke and cyl head thickness are taken into account for volume calculations.
 			</p>
 		</div>
 	{/if}
-	<div class="card-body p-6 pt-3">
+	<div class="calcBody">
 		<form id="energy-calculator-input">
 			<div class="join pb-1" style="display: flex;">
 				{#each gunType as type}
 					<input
-						class="join-item btn btn-outline btn-primary no-animation grow basis-0 p-0 justify-center text-lg font-bold !outline-none focus:btn-active"
+						class="calcJoinButton btn btn-outline btn-primary"
 						type="radio"
 						name="gunType"
 						id={type}
@@ -127,7 +127,7 @@
 				{/each}
 				<select
 					bind:value={cylValue.value}
-					class="select select-primary w-[8.5rem] max-w-xs join-item focus:outline-none focus:outline-[3px] focus:outline-primary focus:outline-offset-[-3px] pl-3 pr-3"
+					class="calcBaseDropdownSelector w-[8.5rem]"
 					class:emptyInput={cylValue.inValid && cylValue.value === 'Select...'}
 				>
 					{#each Object.entries(cylTypes[selectedCylType]) as [name, data]}
@@ -135,11 +135,11 @@
 					{/each}
 				</select>
 			</div>
-			<label class="label pt-2 pb-1 font-bold" for="cylReduction">
+			<label class="calcLabel" for="cylReduction">
 				<span class="label-text">AOE/Airbrake (mm)</span>
 			</label>
 			<input
-				class="input input-bordered w-full max-w-xs focus:ring-2 focus:ring-inset ring-slate-300 !outline-none transition-colors"
+				class="calcBaseInputTextBox"
 				class:emptyInput={cylReduction.inValid && cylReduction.value === ''}
 				id="cylReduction"
 				bind:value={cylReduction.value}
@@ -147,13 +147,13 @@
 				inputmode="decimal"
 				autocomplete="off"
 			/>
-			<label for="barrelLength" class="label pt-2 pb-1 font-bold">
+			<label for="barrelLength" class="calcLabel">
 				<span class="label-text">Barrel length</span>
 				<span for="barrelDiameter" class="label-text">Barrel Diameter</span>
 			</label>
 			<div class="join pb-1" style="display: flex;">
 				<input
-					class="join-item input input-bordered w-0 grow basis-0 focus:ring-2 focus:ring-inset ring-slate-300 !outline-none transition-colors"
+					class="calcBaseInputTextBox join-item !w-0 grow basis-0"
 					class:emptyInput={barrelLength.inValid && barrelLength.value === ''}
 					id="barrelLength"
 					bind:value={barrelLength.value}
@@ -168,18 +168,18 @@
 				<select
 					bind:value={barrelDiameter}
 					id="barrelDiameter"
-					class="select select-primary w-[6.5rem] max-w-xs join-item focus:outline-none focus:outline-[3px] focus:outline-primary focus:outline-offset-[-3px] pl-3 pr-3"
+					class="calcBaseDropdownSelector w-[6.5rem]"
 				>
 					{#each barrelDiameters as diameter}
 						<option value={diameter}>{`${padZeros(diameter)} mm`}</option>
 					{/each}
 				</select>
 			</div>
-			<label class="label pt-2 font-bold pb-1" for="energy-bbWeight">
+			<label class="calcLabel" for="energy-bbWeight">
 				<span class="label-text">BB Weight</span>
 			</label>
 			<input
-				class="input input-bordered w-full max-w-xs focus:ring-2 focus:ring-inset ring-slate-300 !outline-none transition-colors"
+				class="calcBaseInputTextBox"
 				class:emptyInput={bbWeight.inValid && bbWeight.value === ''}
 				id="energy-bbWeight"
 				bind:value={bbWeight.value}
@@ -189,15 +189,13 @@
 				autocomplete="off"
 			/>
 			<button
-				class="btn btn-warning w-full mt-4 text-lg font-bold"
+				class="calcButton"
 				on:click={calculateRatio}
 				class:validButton={Number(barrelLength.value) > 0 && cylData.strokeLength > 0}
 				>Ratio
 			</button>
 		</form>
-		<div
-			class="label min-h-[1.75rem] items-start p-0 justify-center text-center text-lg font-bold select-text"
-		>
+		<div class="calcOutput">
 			{currentRatioString}
 			<br />
 			{bestRatioString}
@@ -207,5 +205,6 @@
 	</div>
 </div>
 
-<style>
+<style type="text/m-css">
+	@import './calc.mcss';
 </style>
