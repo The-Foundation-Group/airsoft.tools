@@ -1,5 +1,5 @@
 <script>
-	import EnergyCalculator from "$lib/EnergyCalculator.svelte";
+	import EnergyCalculator from '$lib/calc-assets/EnergyCalculator.svelte';
 </script>
 
 <svelte:head>

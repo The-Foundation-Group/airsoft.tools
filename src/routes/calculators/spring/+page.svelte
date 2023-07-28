@@ -1,5 +1,5 @@
 <script>
-	import SpringConverter from "$lib/SpringConverter.svelte";
+	import SpringConverter from '$lib/calc-assets/SpringConverter.svelte';
 </script>
 
 <svelte:head>
