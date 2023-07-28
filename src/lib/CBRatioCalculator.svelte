@@ -9,8 +9,10 @@
 		validateNumber,
 		volumeToBarrelRatio
 	} from '$lib/util-lib';
-	import {aegBarrelList, barrelDiameters, cylTypes, gbbBarrelList} from '$lib/values';
-	import type {SpecsObject} from '$lib/types';
+	import { aegBarrelList, barrelDiameters, cylTypes, gbbBarrelList } from '$lib/values';
+	import { slide } from 'svelte/transition';
+	import type { SpecsObject } from '$lib/types';
+	import CalcHeader from '$lib/CalcHeader.svelte';
 
 	let selectedCylType = 'AEG';
 
@@ -27,6 +29,7 @@
 	const bbObject: SpecsObject = { maxValue: 3, maxLength: 5 };
 	const barrelLengthObject: SpecsObject = { maxValue: 700, maxLength: 5 };
 	const cylObject: SpecsObject = { maxValue: 20, maxLength: 5 };
+	let infoOpen = false;
 
 	function calculateRatio(event) {
 		event.preventDefault();
@@ -83,26 +86,27 @@
 		for (let i = 0; i < data.length; ++i) {
 			if (Math.abs(find - data[i].barrelLength) <= Math.abs(find - result)) {
 				result = data[i].barrelLength;
+			} else if (result === 0) {
+				return data[i].barrelLength;
 			} else {
 				return result;
 			}
 		}
+		return result;
 	}
 	$: cylData = cylTypes[selectedCylType][cylValue.value];
 	$: bbWeight.value = decimalizeString(bbWeight.value);
 </script>
 
 <div class="card w-80 bg-base-200 shadow-xl m-4 min-h-min" style="min-width: 20rem">
-	<div tabindex="0" class="collapse collapse-mod collapse-arrow bg-base-300 drop-shadow-md">
-		<div class="collapse-title collapse-title-mod label text-xl font-bold" style="height: 2.5rem">
-			Cylinder Ratio
-		</div>
-		<div class="collapse-content text-left">
+	<CalcHeader title="Cylinder Ratio" bind:open={infoOpen} />
+	{#if infoOpen}
+		<div class="px-4 pb-2 py-1 bg-gray-300" transition:slide={{ delay: 10, duration: 150 }}>
 			<p>
 				Max piston stroke and cyl head thickness are taken into account for volume calculations.
 			</p>
 		</div>
-	</div>
+	{/if}
 	<div class="card-body p-6 pt-3">
 		<form id="energy-calculator-input">
 			<div class="join pb-1" style="display: flex;">
@@ -128,7 +132,6 @@
 				>
 					{#each Object.entries(cylTypes[selectedCylType]) as [name, data]}
 						<option disabled={data.strokeLength === 0} value={name}>{`${name}`}</option>
-						<!--						${data.strokeLength > 0 ? `: ${data.strokeLength}mm` : ''}-->
 					{/each}
 				</select>
 			</div>

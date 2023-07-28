@@ -7,8 +7,10 @@
 		padZeros,
 		validateNumber
 	} from '$lib/util-lib';
-	import type {SpecsObject} from '$lib/types';
-	import {springList} from '$lib/values';
+	import type { SpecsObject } from '$lib/types';
+	import { springList } from '$lib/values';
+	import { slide } from 'svelte/transition';
+	import CalcHeader from '$lib/CalcHeader.svelte';
 
 	const springTypes = {
 		M: { bbWeight: '0.20' },
@@ -21,6 +23,7 @@
 	let selectedSpringType = 'M';
 	let bbWeight = { value: '', inValid: false };
 	let conversion = '';
+	let infoOpen = false;
 
 	function calculateEnergy(event) {
 		event.preventDefault();
@@ -39,28 +42,30 @@
 			bbWeight.inValid = false;
 			buildOutput(tempSpring, Number(bbWeight.value));
 		}
-
 	}
 	function buildOutput(springRating, weight) {
-		let jouleOutput = bbEnergyNormalizedJouleOutput('MPS', springRating, Number(springTypes[selectedSpringType].bbWeight));
-		conversion = `${fpsOut(jouleOutput, weight)} FPS, ${mpsOut(jouleOutput, weight)} MPS, ${padZeros(
-			jouleOutput
-		)}j`;
+		let jouleOutput = bbEnergyNormalizedJouleOutput(
+			'MPS',
+			springRating,
+			Number(springTypes[selectedSpringType].bbWeight)
+		);
+		conversion = `${fpsOut(jouleOutput, weight)} FPS, ${mpsOut(
+			jouleOutput,
+			weight
+		)} MPS, ${padZeros(jouleOutput)}j`;
 	}
 
 	$: bbWeight.value = decimalizeString(bbWeight.value);
 </script>
 
 <div class="card w-80 bg-base-200 shadow-xl m-4 min-h-min" style="min-width: 20rem">
-	<div tabindex="0" class="collapse collapse-mod collapse-arrow bg-base-300 drop-shadow-md">
-		<div class="collapse-title collapse-title-mod label text-xl font-bold" style="height: 2.5rem">
-			Spring to Velocity
-		</div>
-		<div class="collapse-content text-left">
+	<CalcHeader title="Spring to Energy" bind:open={infoOpen} />
+	{#if infoOpen}
+		<div class="px-4 pb-2 py-1 bg-gray-300" transition:slide={{ delay: 10, duration: 150 }}>
 			<p class="font-bold">Data is approximate and is based on manufacturer reported values.</p>
 			<p>BB weight max value: 3 (grams)</p>
 		</div>
-	</div>
+	{/if}
 	<div class="card-body p-6 pt-3">
 		<form id="energy-calculator-input">
 			<div class="join pb-1" style="display: flex;">
