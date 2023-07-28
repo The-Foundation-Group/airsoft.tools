@@ -8,13 +8,13 @@ export const barrelDiameters = [5.98, 6, 6.01, 6.02, 6.03, 6.05, 6.08, 6.23];
 export const cylTypes = {
 	Bolt: {
 		'Select...': { diameter: 0, strokeLength: 0, cylHead: 0 },
-		VSR: { diameter: 36800, strokeLength: 0, cylHead: 0 },
-		'VSR (PDI)': { diameter: 35400, strokeLength: 0, cylHead: 0 },
-		'VSR Bore Up (PDI)': { diameter: 38600, strokeLength: 0, cylHead: 0 },
-		'SRS (Pull)': { diameter: 41000, strokeLength: 0, cylHead: 0 },
-		'SRS (Push)': { diameter: 28000, strokeLength: 0, cylHead: 0 },
+		VSR: { diameter: 0, strokeLength: 0, cylHead: 0 },
+		'VSR (PDI)': { diameter: 0, strokeLength: 0, cylHead: 0 },
+		'VSR Bore Up (PDI)': { diameter: 0, strokeLength: 0, cylHead: 0 },
+		'SRS (Pull)': { diameter: 0, strokeLength: 0, cylHead: 0 },
+		'SRS (Push)': { diameter: 0, strokeLength: 0, cylHead: 0 },
 		'Ares Striker': { diameter: 23.75, strokeLength: 65.4, cylHead: 8.75 },
-		'APS2/L96': { diameter: 33000, strokeLength: 0, cylHead: 0 }
+		'APS2/L96': { diameter: 0, strokeLength: 0, cylHead: 0 }
 	},
 	AEG: {
 		'Select...': { diameter: 0, strokeLength: 0, cylHead: 0 },

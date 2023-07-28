@@ -15,14 +15,11 @@
 	min-height: 2rem !important;
 }
 
-.collapse-mod {
-	border-radius: 0.5rem 0.5rem 0 0 !important;
-}
 
 
 .menuItem {
-	@apply px-4 py-2 label text-sm font-semibold text-gray-900 bg-transparent rounded-lg focus:text-gray-900 focus:bg-gray-200 focus:outline-none
+	@apply px-4 py-2 label text-sm font-semibold text-gray-900 bg-transparent rounded-lg focus:text-gray-900 focus:bg-gray-200 focus:outline-none;
 }
-.subMenuItem{
-	@apply px-4 py-2 label text-sm font-semibold bg-transparent rounded-lg focus:text-gray-900 focus:bg-gray-200 focus:outline-none
+.subMenuItem {
+	@apply px-4 py-2 label text-sm font-semibold bg-transparent rounded-lg focus:text-gray-900 focus:bg-gray-200 focus:outline-none;
 }
