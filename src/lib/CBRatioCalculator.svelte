@@ -9,10 +9,10 @@
 		validateNumber,
 		volumeToBarrelRatio
 	} from '$lib/util-lib';
-	import {aegBarrelList, barrelDiameters, cylTypes, gbbBarrelList} from '$lib/values';
-	import {slide} from 'svelte/transition';
-	import type {SpecsObject} from '$lib/types';
-	import CalcHeader from "$lib/CalcHeader.svelte";
+	import { aegBarrelList, barrelDiameters, cylTypes, gbbBarrelList } from '$lib/values';
+	import { slide } from 'svelte/transition';
+	import type { SpecsObject } from '$lib/types';
+	import CalcHeader from '$lib/CalcHeader.svelte';
 
 	let selectedCylType = 'AEG';
 
@@ -89,24 +89,24 @@
 			} else if (result === 0) {
 				return data[i].barrelLength;
 			} else {
-				return result
+				return result;
 			}
 		}
-		return result
+		return result;
 	}
 	$: cylData = cylTypes[selectedCylType][cylValue.value];
 	$: bbWeight.value = decimalizeString(bbWeight.value);
 </script>
 
 <div class="card w-80 bg-base-200 shadow-xl m-4 min-h-min" style="min-width: 20rem">
-	<CalcHeader title="Cylinder Ratio" bind:open={infoOpen}></CalcHeader>
-		{#if infoOpen}
-			<div class="px-4 pb-2 py-1 bg-gray-300" transition:slide={{ delay: 10, duration: 150 }}>
-				<p>
-					Max piston stroke and cyl head thickness are taken into account for volume calculations.
-				</p>
-			</div>
-		{/if}
+	<CalcHeader title="Cylinder Ratio" bind:open={infoOpen} />
+	{#if infoOpen}
+		<div class="px-4 pb-2 py-1 bg-gray-300" transition:slide={{ delay: 10, duration: 150 }}>
+			<p>
+				Max piston stroke and cyl head thickness are taken into account for volume calculations.
+			</p>
+		</div>
+	{/if}
 	<div class="card-body p-6 pt-3">
 		<form id="energy-calculator-input">
 			<div class="join pb-1" style="display: flex;">

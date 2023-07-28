@@ -11,7 +11,7 @@
 	import {slide} from 'svelte/transition';
 	import type {FullSpecsObject} from '$lib/types';
 	import {roundTo} from '$lib/util-lib.js';
-	import CalcHeader from "$lib/CalcHeader.svelte";
+	import CalcHeader from '$lib/CalcHeader.svelte';
 
 	const energyTypes: FullSpecsObject = {
 		Joules: { maxValue: 6, maxLength: 4 },
@@ -89,9 +89,12 @@
 </script>
 
 <div class="card w-80 bg-base-200 shadow-xl m-4" style="min-width: 20rem">
-	<CalcHeader title="Energy Converter" bind:open={infoOpen}></CalcHeader>
-		{#if infoOpen}
-		<div class="px-4 pb-2 py-1 bg-gray-300 drop-shadow-md" transition:slide={{ delay: 10, duration: 150 }}>
+	<CalcHeader title="Energy Converter" bind:open={infoOpen} />
+	{#if infoOpen}
+		<div
+			class="px-4 pb-2 py-1 bg-gray-300 drop-shadow-md"
+			transition:slide={{ delay: 10, duration: 150 }}
+		>
 			<p class="font-bold">Max values are:</p>
 			<ul class="list-disc pl-6">
 				<li>Joules: 6</li>
@@ -100,7 +103,7 @@
 				<li>BB weight: 3 (grams)</li>
 			</ul>
 		</div>
-		{/if}
+	{/if}
 	<div class="card-body p-6 pt-3">
 		<form id="energy-calculator-input">
 			<div class="join pb-1" style="display: flex;">
@@ -167,7 +170,9 @@
 				>Energy
 			</button>
 		</form>
-		<div class="label min-h-[1.75rem] items-start p-0 justify-center text-center text-lg font-bold select-text">
+		<div
+			class="label min-h-[1.75rem] items-start p-0 justify-center text-center text-lg font-bold select-text"
+		>
 			{speedConversion}
 			<br />
 			{primaryOutput}
