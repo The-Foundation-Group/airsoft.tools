@@ -8,10 +8,10 @@
 		padZeros,
 		validateNumber
 	} from '$lib/util-lib';
-	import {slide} from 'svelte/transition';
-	import type {FullSpecsObject} from '$lib/types';
-	import {roundTo} from '$lib/util-lib.js';
-	import CalcHeader from '$lib/CalcHeader.svelte';
+	import { slide } from 'svelte/transition';
+	import type { FullSpecsObject } from '$lib/types';
+	import { roundTo } from '$lib/util-lib.js';
+	import CalcHeader from '$lib/calc-assets/CalcHeader.svelte';
 
 	const energyTypes: FullSpecsObject = {
 		Joules: { maxValue: 6, maxLength: 4 },
@@ -88,13 +88,10 @@
 	$: tempObject.compareWeight.value = decimalizeString(tempObject.compareWeight.value);
 </script>
 
-<div class="card w-80 bg-base-200 shadow-xl m-4" style="min-width: 20rem">
+<div class="calcCard">
 	<CalcHeader title="Energy Converter" bind:open={infoOpen} />
 	{#if infoOpen}
-		<div
-			class="px-4 pb-2 py-1 bg-gray-300 drop-shadow-md"
-			transition:slide={{ delay: 10, duration: 150 }}
-		>
+		<div class="calcInfoBox" transition:slide={{ delay: 10, duration: 150 }}>
 			<p class="font-bold">Max values are:</p>
 			<ul class="list-disc pl-6">
 				<li>Joules: 6</li>
@@ -104,12 +101,12 @@
 			</ul>
 		</div>
 	{/if}
-	<div class="card-body p-6 pt-3">
+	<div class="calcBody">
 		<form id="energy-calculator-input">
 			<div class="join pb-1" style="display: flex;">
 				{#each Object.entries(energyTypes) as [energyType]}
 					<input
-						class="join-item btn btn-outline btn-primary no-animation grow basis-0 p-0 justify-center text-lg font-bold !outline-none focus:btn-active"
+						class="calcJoinButton btn btn-outline btn-primary"
 						type="radio"
 						name="energyType"
 						id={energyType}
@@ -124,7 +121,7 @@
 				{/each}
 			</div>
 			<input
-				class="input input-bordered w-full max-w-xs focus:ring-2 focus:ring-inset ring-slate-300 !outline-none"
+				class="calcBaseInputTextBox"
 				class:emptyInput={tempObject.inputEnergy.inValid &&
 					Number(tempObject.inputEnergy.value) === 0}
 				id="energy-inputEnergy"
@@ -139,7 +136,7 @@
 				<span class="label-text">BB Weight</span>
 			</label>
 			<input
-				class="input input-bordered w-full max-w-xs focus:ring-2 focus:ring-inset ring-slate-300 !outline-none"
+				class="calcBaseInputTextBox"
 				class:emptyInput={tempObject.bbWeight.inValid && Number(tempObject.bbWeight.value) === 0}
 				id="energy-bbWeight"
 				bind:value={tempObject.bbWeight.value}
@@ -152,7 +149,7 @@
 				<span class="label-text">Comparison BB Weight</span>
 			</label>
 			<input
-				class="input input-bordered w-full max-w-xs focus:ring-2 focus:ring-inset ring-slate-300 !outline-none"
+				class="calcBaseInputTextBox"
 				id="energy-bbWeightCompare"
 				bind:value={tempObject.compareWeight.value}
 				placeholder={`0.25`}
@@ -161,18 +158,15 @@
 				inputmode="decimal"
 				autocomplete="off"
 			/>
-			<!--			<span class="input" />-->
 			<button
-				class="btn btn-warning w-full mt-4 text-lg font-bold"
+				class="calcButton"
 				on:click={calculateEnergy}
 				class:validButton={Number(tempObject.inputEnergy.value) > 0 &&
 					Number(tempObject.bbWeight.value) > 0}
 				>Energy
 			</button>
 		</form>
-		<div
-			class="label min-h-[1.75rem] items-start p-0 justify-center text-center text-lg font-bold select-text"
-		>
+		<div class="calcOutput">
 			{speedConversion}
 			<br />
 			{primaryOutput}
@@ -182,5 +176,6 @@
 	</div>
 </div>
 
-<style>
+<style type="text/m-css">
+	@import './calc.mcss';
 </style>
