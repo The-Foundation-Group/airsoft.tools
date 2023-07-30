@@ -26,7 +26,6 @@
 	let innerWidth;
 
 	$: dropdownOpen = isCalcPage;
-	$: console.log(currentPath);
 	onMount(() => {
 		themeChange(false);
 	});
