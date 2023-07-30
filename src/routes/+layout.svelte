@@ -14,19 +14,18 @@
 		'/tof-form': 'Time of Flight Data Collection'
 	};
 	const calculatorPages = {
-		'/calculators': 'All',
+		'/': 'All',
 		'/calculators/energy': 'Energy Converter',
 		'/calculators/spring': 'Spring to Energy',
 		'/calculators/ratio': 'Barrel Ratio'
 	};
-	$: currentPath = $page.url.pathname.replace(/\/$/, '');
+	$: currentPath = $page.url.pathname;
 	$: isCalcPage = currentPath.split('/')[1] === 'calculators';
 	let sidebarOpen = false;
 	let dropdownOpen;
 	let innerWidth;
 
 	$: dropdownOpen = isCalcPage;
-
 	onMount(() => {
 		themeChange(false);
 	});
@@ -58,7 +57,10 @@
 					on:click|stopPropagation={() => (dropdownOpen = !dropdownOpen)}
 					class="py-0.5 mt-4 parent w-full"
 				>
-					<span class:!bg-gray-200={isCalcPage} class="menuItem child transition-all">
+					<span
+						class:!bg-gray-200={isCalcPage || '/' === currentPath}
+						class="menuItem child transition-all"
+					>
 						<span>Calculators</span>
 						<svg
 							fill="currentColor"
