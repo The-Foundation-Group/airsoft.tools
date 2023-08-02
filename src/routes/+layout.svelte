@@ -32,7 +32,7 @@
 </script>
 
 <svelte:window bind:innerWidth />
-<div class="md:flex flex-col md:flex-row w-full">
+<div class="flex">
 	<div
 		use:clickoutside
 		on:clickoutside={() => (sidebarOpen = false)}
@@ -46,7 +46,7 @@
 		>
 		<Menu class="md:hidden" menuOpen={sidebarOpen} on:click={() => (sidebarOpen = !sidebarOpen)} />
 	</div>
-	<div class="flex flex-col text-gray-700 z-[9] bg-white flex-shrink-0 fixed top-14 shadow-xl">
+	<div class="text-gray-700 z-[9] bg-white flex-shrink-0 fixed top-14 shadow-xl">
 		{#if sidebarOpen || innerWidth >= breakpoints.md}
 			<nav
 				transition:slide={{ delay: 10, duration: 150 }}
@@ -102,9 +102,8 @@
 			</nav>
 		{/if}
 	</div>
-	<div
-		class="md:ml-64 px-4 relative top-16 container mx-auto flex justify-center flex-wrap items-start"
-	>
+	<div class="w-0 md:w-64 h-screen overflow-hidden flex-shrink-0"></div>
+	<div class="px-4 relative top-16 container mx-auto flex justify-center flex-wrap items-start">
 		<slot />
 	</div>
 </div>
