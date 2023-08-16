@@ -98,7 +98,7 @@ let timer: number;
 export function validateNumber(event: any, currentValue: string, specsObject: SpecsObject) {
 	let invalid = false;
 	const validDecimalNumber = /^\.?[0-9]+(\.[0-9]*)?$/;
-	const errorStyle = ['border-red-500', 'border-2', 'transition-[border-color]'];
+	const errorStyle = ['!border-red-500', '!border-2', 'transition-[border-color]'];
 	const selectionStartIndex = event.target.selectionStart;
 	const selectionEndIndex = event.target.selectionEnd;
 	const preSelectString = currentValue.substring(0, selectionStartIndex);

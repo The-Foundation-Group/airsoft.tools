@@ -22,6 +22,8 @@
 	let bbWeight = { value: '', inValid: false };
 	let cylData = { diameter: 0, strokeLength: 0, cylHead: 0 };
 	let barrelDiameter = 6.03;
+	let barrelVolume;
+	let currentRatio;
 	let currentRatioString = '';
 	let bestRatioString = '';
 	let recommendedBarrelString = '';
@@ -37,17 +39,22 @@
 		bestRatioString = '';
 		recommendedBarrelString = '';
 
-		if (Number(barrelLength.value) === 0) {
+		if (Number(barrelLength.value) === 0 && Number(bbWeight.value) === 0) {
 			barrelLength.inValid = true;
+			bbWeight.inValid = true;
 		}
 
 		if (cylData.strokeLength === 0) {
 			cylValue.inValid = true;
 		}
 
-		if (Number(barrelLength.value) > 0 && cylData.strokeLength > 0) {
+		if (
+			(Number(barrelLength.value) > 0 || Number(bbWeight.value) > 0) &&
+			cylData.strokeLength > 0
+		) {
 			barrelLength.inValid = false;
 			cylValue.inValid = false;
+			bbWeight.inValid = false;
 			buildOutput();
 		}
 	}
@@ -56,9 +63,12 @@
 			cylData.diameter,
 			cylData.strokeLength - (Number(cylReduction.value) + cylData.cylHead)
 		);
-		let barrelVolume = calcVolume(barrelDiameter, Number(barrelLength.value));
-		let currentRatio = volumeToBarrelRatio(cylVolume, barrelVolume);
-		currentRatioString = `Current: ${currentRatio}:1`;
+		if (Number(barrelLength.value) > 0) {
+			barrelVolume = calcVolume(barrelDiameter, Number(barrelLength.value));
+			currentRatio = volumeToBarrelRatio(cylVolume, barrelVolume);
+			currentRatioString = `Current: ${currentRatio}:1`;
+		}
+
 		if (Number(bbWeight.value) > 0) {
 			let idealRatio = roundTo(idealCylToBarrelRatio(Number(bbWeight.value)), 3);
 			if (currentRatio <= idealRatio + 0.1 && currentRatio >= idealRatio - 0.05) {
@@ -159,6 +169,7 @@
 					bind:value={barrelLength.value}
 					placeholder={`363 (mm)`}
 					on:beforeinput={(event) => validateNumber(event, barrelLength.value, barrelLengthObject)}
+					on:input={() => (bbWeight.inValid = false)}
 					inputmode="decimal"
 					autocomplete="off"
 				/>
@@ -185,13 +196,15 @@
 				bind:value={bbWeight.value}
 				placeholder={`0.25`}
 				on:beforeinput={(event) => validateNumber(event, bbWeight.value, bbObject)}
+				on:input={() => (barrelLength.inValid = false)}
 				inputmode="decimal"
 				autocomplete="off"
 			/>
 			<button
 				class="calcButton"
 				on:click={calculateRatio}
-				class:validButton={Number(barrelLength.value) > 0 && cylData.strokeLength > 0}
+				class:validButton={(Number(barrelLength.value) > 0 || Number(bbWeight.value) > 0) &&
+					cylData.strokeLength > 0}
 				>Ratio
 			</button>
 		</form>
