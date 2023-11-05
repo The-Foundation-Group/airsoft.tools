@@ -1,6 +1,6 @@
 .calcCard {
 	min-width: 20rem;
-	@apply card w-80 bg-base-200 shadow-xl m-4 min-h-min;
+	@apply card w-80 bg-base-200 shadow-xl m-4 h-min;
 }
 
 .calcBody {
