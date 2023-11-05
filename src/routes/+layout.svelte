@@ -9,9 +9,9 @@
 
 	const breakpoints = { xs: 320, sm: 576, md: 768, lg: 1024, xl: 1280, '2xl': 1536 };
 	const mainPages = {
-		'/database': 'Database',
-		'/spring-form': 'Spring Data Collection',
-		'/tof-form': 'Time of Flight Data Collection'
+		// '/database': 'Database',
+		// '/spring-form': 'Spring Data Collection',
+		// '/tof-form': 'Time of Flight Data Collection'
 	};
 	const calculatorPages = {
 		'/': 'All',
@@ -22,10 +22,10 @@
 	$: currentPath = $page.url.pathname;
 	$: isCalcPage = currentPath.split('/')[1] === 'calculators';
 	let sidebarOpen = false;
-	let dropdownOpen;
+	let dropdownOpen = true;
 	let innerWidth;
 
-	$: dropdownOpen = isCalcPage;
+	// $: dropdownOpen = isCalcPage;
 	onMount(() => {
 		themeChange(false);
 	});
@@ -103,7 +103,7 @@
 		{/if}
 	</div>
 	<div class="w-0 md:w-64 h-screen overflow-hidden flex-shrink-0"></div>
-	<div class="px-4 relative top-16 container mx-auto flex justify-center flex-wrap items-start">
+	<div class="px-4 relative container mt-16 mx-auto flex justify-center flex-wrap h-min">
 		<slot />
 	</div>
 </div>
