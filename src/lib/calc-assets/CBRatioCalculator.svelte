@@ -92,7 +92,7 @@
 		}
 	}
 	function findNearest(find, data) {
-		let result = 0;
+		var result = 0;
 		for (let i = 0; i < data.length; ++i) {
 			if (Math.abs(find - data[i].barrelLength) <= Math.abs(find - result)) {
 				result = data[i].barrelLength;
