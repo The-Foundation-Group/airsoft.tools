@@ -57,7 +57,7 @@ export function idealCylToBarrelRatio(bbWeight: number) {
 	// 	Math.log10(bbWeight - 0.13223)
 	// );
 	// using Sodiums equation now
-	return (4.01 - 13.2*bbWeight + 24.9*bbWeight^2)
+	return (4.01 - 13.2 * bbWeight + 24.9 * Math.pow(bbWeight, 2))
 }
 
 export function convertAltitude(altitudeUnits: string, altitudeInput: number) {
