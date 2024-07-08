@@ -45,17 +45,19 @@ function fmod(a: number, b: number) {
 
 //it takes a BB weight and does *math magic* to output what volume ratio you need
 export function idealCylToBarrelRatio(bbWeight: number) {
-	return (
-		5.28813 *
-			(-0.0122026 -
-				(6.01464 -
-					Math.tan(1.46038 / (-0.0757997 * bbWeight)) *
-						Math.cos(Math.round(0.0826453 + bbWeight))) *
-					fmod(bbWeight, 0.000604915) +
-				bbWeight) -
-		fmod(bbWeight, 0.021126) / -0.594958 -
-		Math.log10(bbWeight - 0.13223)
-	);
+	// return (
+	// 	5.28813 *
+	// 		(-0.0122026 -
+	// 			(6.01464 -
+	// 				Math.tan(1.46038 / (-0.0757997 * bbWeight)) *
+	// 					Math.cos(Math.round(0.0826453 + bbWeight))) *
+	// 				fmod(bbWeight, 0.000604915) +
+	// 			bbWeight) -
+	// 	fmod(bbWeight, 0.021126) / (0 - 0.594958) -
+	// 	Math.log10(bbWeight - 0.13223)
+	// );
+	// using Sodiums equation now
+	return (4.01 - 13.2*bbWeight + 24.9*bbWeight^2)
 }
 
 export function convertAltitude(altitudeUnits: string, altitudeInput: number) {
