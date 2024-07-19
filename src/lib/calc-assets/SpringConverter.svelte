@@ -26,6 +26,7 @@
 	let infoOpen = false;
 
 	function calculateEnergy(event: { preventDefault: () => void; }) {
+		event.preventDefault();
 		conversion = '';
 		let tempSpring: number;
 		if (selectedSpringType === '%') {

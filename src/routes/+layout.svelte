@@ -16,8 +16,9 @@
 	const calculatorPages = {
 		'/': 'All',
 		'/calculators/energy': 'Energy Converter',
+		'/calculators/ratio': 'Cylinder Ratio',
 		'/calculators/spring': 'Spring to Energy',
-		'/calculators/ratio': 'Cylinder Ratio'
+		'/calculators/rof': 'Rate of Fire'
 	};
 	$: currentPath = $page.url.pathname;
 	$: isCalcPage = currentPath.split('/')[1] === 'calculators';

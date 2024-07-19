@@ -36,6 +36,7 @@
 	let comparisonOutput = '';
 	let infoOpen = false;
 	function calculateEnergy(event: { preventDefault: () => void; }) {
+		event.preventDefault();
 		primaryOutput = '';
 		comparisonOutput = '';
 		inputEnergy = Number(tempObject.inputEnergy.value);
