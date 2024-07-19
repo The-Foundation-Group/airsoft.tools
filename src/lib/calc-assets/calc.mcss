@@ -11,6 +11,11 @@
 	@apply px-4 pb-2 py-1 bg-gray-300 drop-shadow-md;
 }
 
+.calcMoreOptionsBox {
+	border-radius: 0rem 0rem 0.5rem 0.5rem;
+	@apply px-4 pb-2 py-1 bg-gray-300 drop-shadow-md;
+}
+
 .calcLabel {
 	@apply label pt-2 font-bold pb-1;
 }

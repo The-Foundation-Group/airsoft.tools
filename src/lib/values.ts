@@ -5,32 +5,38 @@ export const springList = [
 
 export const barrelDiameters = [5.98, 6, 6.01, 6.02, 6.03, 6.05, 6.08, 6.23];
 
-export const cylTypes = {
-	Bolt: {
-		'Select...': { diameter: 0, strokeLength: 0, cylHead: 0 },
-		VSR: { diameter: 0, strokeLength: 0, cylHead: 0 },
-		'VSR (PDI)': { diameter: 0, strokeLength: 0, cylHead: 0 },
-		'VSR Bore Up (PDI)': { diameter: 0, strokeLength: 0, cylHead: 0 },
-		'SRS (Pull)': { diameter: 0, strokeLength: 0, cylHead: 0 },
-		'SRS (Push)': { diameter: 0, strokeLength: 0, cylHead: 0 },
-		'Ares Striker': { diameter: 23.75, strokeLength: 65.4, cylHead: 8.75 },
-		'APS2/L96': { diameter: 0, strokeLength: 0, cylHead: 0 }
-	},
-	AEG: {
-		'Select...': { diameter: 0, strokeLength: 0, cylHead: 0 },
-		'Type A, Full, 0': { diameter: 23.75, strokeLength: 65.5, cylHead: 7 },
-		'Type B': { diameter: 23.75, strokeLength: 64.5, cylHead: 7 },
-		'Type C, 4/5, I': { diameter: 23.75, strokeLength: 53.5, cylHead: 7 },
-		'Type D, 3/4, II': { diameter: 23.75, strokeLength: 48.9, cylHead: 7 },
-		'Type E, 2/3': { diameter: 23.75, strokeLength: 46.5, cylHead: 7 },
-		'Type F, 1/2, III': { diameter: 23.75, strokeLength: 35.25, cylHead: 7 },
-		'V2.5': { diameter: 23.75, strokeLength: 75.5, cylHead: 7 },
-		'Bore Up': { diameter: 24.65, strokeLength: 65.5, cylHead: 7 }
-		// 'RA D': {diameter: 23.75, strokeLength: 0, cylHead: 7},
-		// 'RA C': {diameter: 23.75, strokeLength: 0, cylHead: 7},
-		// 'RA B': {diameter: 23.75, strokeLength: 0, cylHead: 7},
-		// 'RA A': {diameter: 23.75, strokeLength: 0, cylHead: 7},
-	}
+export const boltCyls = {
+	'Select...': { diameter: '', length: '', cylHead: '' },
+	VSR: { diameter: 0, length: 0, cylHead: 0 },
+	'VSR (PDI)': { diameter: 0, length: 0, cylHead: 0 },
+	'VSR Bore Up (PDI)': { diameter: 0, length: 0, cylHead: 0 },
+	'SRS (Pull)': { diameter: 0, length: 0, cylHead: 0 },
+	'SRS (Push)': { diameter: 0, length: 0, cylHead: 0 },
+	'Ares Striker': { diameter: 23.75, length: 65.4, cylHead: 8.75 },
+	'APS2/L96': { diameter: 0, length: 0, cylHead: 0 }
+};
+export const aegCyls = {
+	'Select...': { diameter: '', length: '' },
+	'Type A, Full, 0': { diameter: 23.75, length: 72.25 },
+	'Type B': { diameter: 23.75, length: 64.75 },
+	'Type C, 4/5, I': { diameter: 23.75, length: 53.5 },
+	'Type D, 3/4, II': { diameter: 23.75, length: 48.9 },
+	'Type E, 2/3': { diameter: 23.75, length: 46.5 },
+	'Type F, 1/2, III': { diameter: 23.75, length: 35.25 },
+	'V2.5': { diameter: 23.75, length: 82 },
+	'Bore Up': { diameter: 24.65, length: 72.25 }
+	// 'RA D': {'diameter': 23.75, 'length': 0},
+	// 'RA C': {'diameter': 23.75, 'length': 0},
+	// 'RA B': {'diameter': 23.75, 'length': 0},
+	// 'RA A': {'diameter': 23.75, 'length': 0},
+};
+export const cylTypes = { AEG: aegCyls, Bolt: boltCyls };
+
+export const gearTypes = {
+	SSG: 16,
+	'V2.5': 19,
+	DSG: 8,
+	TSG: 5
 };
 
 export const aegBarrelList = [
