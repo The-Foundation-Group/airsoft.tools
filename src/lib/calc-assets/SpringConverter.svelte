@@ -25,8 +25,7 @@
 	let conversion = '';
 	let infoOpen = false;
 
-	function calculateEnergy(event) {
-		event.preventDefault();
+	function calculateEnergy(event: { preventDefault: () => void; }) {
 		conversion = '';
 		let tempSpring: number;
 		if (selectedSpringType === '%') {
@@ -43,7 +42,7 @@
 			buildOutput(tempSpring, Number(bbWeight.value));
 		}
 	}
-	function buildOutput(springRating, weight) {
+	function buildOutput(springRating: number, weight: number) {
 		let jouleOutput = bbEnergyNormalizedJouleOutput(
 			'MPS',
 			springRating,

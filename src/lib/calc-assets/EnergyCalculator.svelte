@@ -35,8 +35,7 @@
 	let primaryOutput = '';
 	let comparisonOutput = '';
 	let infoOpen = false;
-	function calculateEnergy(event) {
-		event.preventDefault();
+	function calculateEnergy(event: { preventDefault: () => void; }) {
 		primaryOutput = '';
 		comparisonOutput = '';
 		inputEnergy = Number(tempObject.inputEnergy.value);
@@ -68,7 +67,7 @@
 			}
 		}
 	}
-	function buildOutput(inputEnergy, weight) {
+	function buildOutput(inputEnergy: number, weight: number) {
 		const danger = `Danger, exceeds 6J.`;
 		if (selectedEnergy === 'Joules') {
 			return `${padZeros(weight, 3)}g: ${fpsOut(inputEnergy, weight)} FPS, ${mpsOut(

@@ -17,12 +17,15 @@
 		'/': 'All',
 		'/calculators/energy': 'Energy Converter',
 		'/calculators/spring': 'Spring to Energy',
-		'/calculators/ratio': 'Barrel Ratio'
+		'/calculators/ratio': 'Cylinder Ratio'
 	};
 	$: currentPath = $page.url.pathname;
 	$: isCalcPage = currentPath.split('/')[1] === 'calculators';
 	let sidebarOpen = false;
 	let dropdownOpen = true;
+	/**
+	 * @type {number}
+	 */
 	let innerWidth;
 
 	// $: dropdownOpen = isCalcPage;
