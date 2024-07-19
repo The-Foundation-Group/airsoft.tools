@@ -6,6 +6,7 @@
 	import Menu from '$lib/menu/Menu.svelte';
 	import { onMount } from 'svelte';
 	import { themeChange } from 'theme-change';
+	import { base } from '$app/paths';
 
 	const breakpoints = { xs: 320, sm: 576, md: 768, lg: 1024, xl: 1280, '2xl': 1536 };
 	const mainPages = {
@@ -42,6 +43,11 @@
 		on:clickoutside={() => (sidebarOpen = false)}
 		class="flex-shrink-0 w-screen px-8 py-0 z-10 bg-white h-14 flex fixed items-center justify-between shadow-lg"
 	>
+		<img
+			src="{base}/logo.svg"
+			alt="Logo containing drafting Compass and Hammer as A and T"
+			width="50rem"
+		/>
 		<a
 			on:click={() => (sidebarOpen = false)}
 			href="/"
@@ -104,22 +110,20 @@
 						</div>
 					</a>
 				{/each}
-				<div
-					class="px-2 py-2 bg-white rounded-md shadow md:mb-4"
-					style="margin-top: auto;"
-				>
-				<a class="py-0.5 block parent" on:click={() => (sidebarOpen = false)} href="/changelog">
-					<div class:!bg-gray-200={"/changelog" === currentPath} class="menuItem text-gray-900">
-						Changelog
-					</div>
-				</a>
-				<a class="py-0.5 block parent" href="https://github.com/The-Foundation-Group/airsoft.tools/issues"
-					target="_blank"
-					rel="noopener noreferrer">
-					<div class="menuItem text-gray-900">
-						Submit a bug or request
-					</div>
-				</a>
+				<div class="px-2 py-2 bg-white rounded-md shadow md:mb-4" style="margin-top: auto;">
+					<a class="py-0.5 block parent" on:click={() => (sidebarOpen = false)} href="/changelog">
+						<div class:!bg-gray-200={'/changelog' === currentPath} class="menuItem text-gray-900">
+							Changelog
+						</div>
+					</a>
+					<a
+						class="py-0.5 block parent"
+						href="https://github.com/The-Foundation-Group/airsoft.tools/issues"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						<div class="menuItem text-gray-900">Submit a bug or request</div>
+					</a>
 				</div>
 			</nav>
 		{/if}
