@@ -49,12 +49,13 @@
 		>
 		<Menu class="md:hidden" menuOpen={sidebarOpen} on:click={() => (sidebarOpen = !sidebarOpen)} />
 	</div>
-	<div class="text-gray-700 z-[9] bg-white flex-shrink-0 fixed top-14 shadow-xl">
+	<div class="text-gray-700 z-[9] bg-white flex-shrink-0 fixed shadow-xl">
 		{#if sidebarOpen || innerWidth >= breakpoints.md}
 			<nav
 				transition:slide={{ delay: 10, duration: 150 }}
 				class:shadow-lg={!sidebarOpen}
-				class="flex-grow px-4 pb-4 w-screen md:w-64 md:min-h-screen md:pb-0 md:overflow-y-auto bg-gray-100"
+				class="flex-grow px-4 pb-4 w-screen md:w-64 pt-14 md:min-h-screen md:pb-0 md:overflow-y-auto bg-gray-100"
+				style="display:flex; flex-direction:column; flex:1;"
 			>
 				<button
 					on:click|stopPropagation={() => (dropdownOpen = !dropdownOpen)}
@@ -102,6 +103,23 @@
 						</div>
 					</a>
 				{/each}
+				<div
+					class="px-2 py-2 bg-white rounded-md shadow md:mb-4"
+					style="margin-top: auto;"
+				>
+				<a class="py-0.5 block parent" on:click={() => (sidebarOpen = false)} href="/changelog">
+					<div class:!bg-gray-200={"/changelog" === currentPath} class="menuItem text-gray-900">
+						Changelog
+					</div>
+				</a>
+				<a class="py-0.5 block parent" href="https://github.com/The-Foundation-Group/airsoft.tools/issues"
+					target="_blank"
+					rel="noopener noreferrer">
+					<div class="menuItem text-gray-900">
+						Submit a bug or request
+					</div>
+				</a>
+				</div>
 			</nav>
 		{/if}
 	</div>
