@@ -456,12 +456,12 @@
 				</span>
 				<span>
 					<label for="barrelDiameter" class="calcLabel">
-						<span class="label-text">Barrel Diameter</span>
+						<span class="label-text" style="width: 100%; text-align:center">Barrel Diameter</span>
 					</label>
 					<select
 						bind:value={barrelDiameter}
 						id="barrelDiameter"
-						class="calcBaseDropdownSelector w-[7rem]"
+						class="calcBaseDropdownSelector w-[8rem]"
 					>
 						{#each barrelDiameters as diameter}
 							<option value={diameter}>{`${padZeros(diameter)}mm`}</option>
