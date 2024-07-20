@@ -1,10 +1,15 @@
-<script>
+<script lang="ts">
 	export let open = false;
 	export let title;
+
+	function toggle(event: { preventDefault: () => void }){
+		event.preventDefault();
+		open = !open
+	}
 </script>
 
 <button
-	on:click={() => (open = !open)}
+	on:click={(event) => toggle(event)}
 	class="calc-top"
 >
 	<span>{title}</span>

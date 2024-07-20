@@ -30,11 +30,12 @@
 		value: 'Select...' as keyof typeof aegCyls,
 		inValid: false
 	};
-	let cylReduction = { value: 6, inValid: false };
+	let toothToCylDistance = { value: 6, inValid: false };
 	let airBrake = { value: '', invalid: false };
 	let barrelLength = { value: '', inValid: false };
 	let bbWeight = { value: '', inValid: false };
 	let shortStrokeBy = { value: '', inValid: false };
+	let pistonSpacerThickness = { value: '', invalid: false };
 	let cylData = { diameter: '', length: '' };
 	let barrelDiameter = 6.03;
 	let barrelVolume;
@@ -79,16 +80,23 @@
 			buildOutput();
 		}
 	}
+
+	function getEffectiveStrokeLength(cylLength: number) {
+		let strokeLength =
+			(2 + selectedGearType - Number(shortStrokeBy.value)) * 3 +
+			4.5 -
+			(Number(toothToCylDistance.value) + (!airBrake.invalid ? Number(airBrake.value) - 2 : 0));
+
+		let useableCylLength = cylLength - ((Number(toothToCylDistance.value)) + 1 - Number(pistonSpacerThickness.value))
+		return strokeLength >= useableCylLength ? useableCylLength : strokeLength;
+	}
+
 	function buildOutput() {
 		let cylVolume;
 		let cylLength = Number(cylData.length);
 		let cylDiameter = Number(cylData.diameter);
 		if (selectedCylType === 'AEG') {
-			let strokeLength =
-				(2 + selectedGearType - Number(shortStrokeBy.value)) * 3 +
-				4.5 -
-				((cylReduction.value >= 5 ? cylReduction.value - 6 : 0) + Number(airBrake.value) - 2);
-			cylVolume = calcVolume(cylDiameter, strokeLength > cylLength ? cylLength : strokeLength);
+			cylVolume = calcVolume(cylDiameter, getEffectiveStrokeLength(cylLength));
 		} else {
 			cylVolume = calcVolume(cylDiameter, cylLength - Number(airBrake.value));
 		}
@@ -135,7 +143,7 @@
 		return result;
 	}
 	$: cylData = selectedCylType === 'AEG' ? aegCyls[cylValue.value] : boltCyls[cylValue.value];
-	$: aoeFixed === true ? (cylReduction.value = 10.5) : (cylReduction.value = 6);
+	$: aoeFixed === true ? (toothToCylDistance.value = 10.5) : (toothToCylDistance.value = 6);
 	$: bbWeight.value = decimalizeString(bbWeight.value);
 </script>
 
@@ -144,10 +152,12 @@
 	{#if infoOpen}
 		<div class="calcInfoBox" transition:slide={{ delay: 10, duration: 150 }}>
 			<p class="mb-2">
-				<b>Advanced</b> allows for shortstroking and Airbreaks as well as custom AOE, cylinder sizes, and porting.
+				<b>Advanced</b> allows for shortstroking and Airbreaks as well as custom AOE, cylinder sizes,
+				and porting.
 			</p>
 			<p>
-				<b>Pickup to Cyl</b> is the distance between the furthest back point of the pickup tooth on the piston and the rear edge of the cylinder, which is the most consistent way to measure AOE.
+				<b>Pickup to Cyl</b> is the distance between the furthest back point of the pickup tooth on the
+				piston and the rear edge of the cylinder, which is the most consistent way to measure AOE.
 			</p>
 		</div>
 	{/if}
@@ -335,22 +345,52 @@
 						<div class="calcMoreOptionsBox" transition:slide={{ delay: 10, duration: 150 }}>
 							<div style="display:inline-block">
 								<div class="afterContainer" style="width: 49%; float:left">
-									<label for="cylReduction" class="calcLabel">
+									<label for="toothToCylDistance" class="calcLabel">
 										<span class="label-text text-xs" style="width: 100%; text-align:center"
 											>Pickup to Cyl</span
 										>
 									</label>
-									{#if cylReduction.value}<span class="floatsAfter mmAfter" style="top: 52%"
-											>{cylReduction.value}</span
+									{#if toothToCylDistance.value}<span class="floatsAfter mmAfter" style="top: 52%"
+											>{toothToCylDistance.value}</span
 										>
 									{/if}
 									<input
 										class="calcBaseInputTextBox placeholder:text-slate-400 join-item"
-										id="cylReduction"
+										id="toothToCylDistance"
 										placeholder={`0mm`}
-										bind:value={cylReduction.value}
+										bind:value={toothToCylDistance.value}
 										on:beforeinput={(event) =>
-											validateNumber(event, cylReduction.value.toString(), volumeReductionObject)}
+											validateNumber(
+												event,
+												toothToCylDistance.value.toString(),
+												volumeReductionObject
+											)}
+										inputmode="decimal"
+										autocomplete="off"
+									/>
+								</div>
+								<div class="afterContainer" style="width: 49%; float:right">
+									<label for="pistonHeadSpacer" class="calcLabel">
+										<span class="label-text text-xs" style="width: 100%; text-align:center"
+											>Piston Spacers</span
+										>
+									</label>
+									{#if pistonSpacerThickness.value}<span
+											class="floatsAfter mmAfter"
+											style="top: 52%">{pistonSpacerThickness.value}</span
+										>
+									{/if}
+									<input
+										class="calcBaseInputTextBox placeholder:text-slate-400 join-item"
+										id="pistonHeadSpacer"
+										placeholder={`0mm`}
+										bind:value={pistonSpacerThickness.value}
+										on:beforeinput={(event) =>
+											validateNumber(
+												event,
+												pistonSpacerThickness.value.toString(),
+												volumeReductionObject
+											)}
 										inputmode="decimal"
 										autocomplete="off"
 									/>
