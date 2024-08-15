@@ -15,7 +15,7 @@
 		cylTypes,
 		boltCyls,
 		aegCyls,
-		gearTypes,
+		gearTeeth,
 		gbbBarrelList
 	} from '$lib/values';
 	import { slide } from 'svelte/transition';
@@ -87,7 +87,8 @@
 			4.5 -
 			(Number(toothToCylDistance.value) + (!airBrake.invalid ? Number(airBrake.value) - 2 : 0));
 
-		let useableCylLength = cylLength - ((Number(toothToCylDistance.value)) + 1 - Number(pistonSpacerThickness.value))
+		let useableCylLength =
+			cylLength - (Number(toothToCylDistance.value) + 1 - Number(pistonSpacerThickness.value));
 		return strokeLength >= useableCylLength ? useableCylLength : strokeLength;
 	}
 
@@ -201,8 +202,8 @@
 							class="calcBaseDropdownSelector w-[7rem] join-item"
 							style="border-radius: 0.5rem 0rem 0rem 0.5rem;"
 						>
-							{#each Object.entries(gearTypes) as [title, data]}
-								<option value={data}>{title} ({data}T)</option>
+							{#each Object.entries(gearTeeth) as [title, data]}
+								<option value={data}>{title}</option>
 							{/each}
 						</select>
 					</div>

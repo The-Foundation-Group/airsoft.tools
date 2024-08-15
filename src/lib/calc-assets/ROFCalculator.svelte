@@ -1,15 +1,11 @@
 <script lang="ts">
 	import {
-		bbEnergyNormalizedJouleOutput,
 		decimalizeString,
-		fpsOut,
-		mpsOut,
-		padZeros,
 		roundTo,
 		validateNumber
 	} from '$lib/util-lib';
 	import type { SpecsObject } from '$lib/types';
-	import { gearTypes } from '$lib/values';
+	import { gearShotsPerCycle } from '$lib/values';
 	import { slide } from 'svelte/transition';
 	import CalcHeader from '$lib/calc-assets/CalcHeader.svelte';
 
@@ -20,7 +16,6 @@
 	let ratio = { value: '', inValid: false };
 	let output = '';
 	let infoOpen = false;
-	const filteredgearTypes = Object.keys(gearTypes).filter(k => {return k !== "V2.5"})
 	function calculateROF(event: { preventDefault: () => void }) {
 		event.preventDefault();
 		output = '';
@@ -94,8 +89,8 @@
 						style="width: 100%;"
 						class="calcBaseDropdownSelector join-item"
 					>
-						{#each Object.entries(filteredgearTypes) as [data, title]}
-							<option value={Number(data)+1}>{title}</option>
+						{#each Object.entries(gearShotsPerCycle) as [title, data]}
+							<option value={data}>{title}</option>
 						{/each}
 					</select>
 				</span>

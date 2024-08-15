@@ -5,5 +5,12 @@ export const ChangeLog = {
 			"Cylinder to barrel ratio calculator now allows for full customization of the air system in an AEG, the only thing it doesn't do is include your nozzles volume as far as I'm aware.",
 			'ROF calculator estimates in the 80-90% efficiency range for keeping limits in mind.'
 		]
+	},
+	'08-15-24': {
+		title: 'Added more DSG options to ratio calculator and fixed RPS calc bug.',
+		body: [
+			'9T and 10T options have been added to the ratio calculator for increased DSG compatability.',
+			'Doing such added a bug in the RPS calc which has now been fixed by breaking up data types.'
+		]
 	}
 };

@@ -32,13 +32,19 @@ export const aegCyls = {
 };
 export const cylTypes = { AEG: aegCyls, Bolt: boltCyls };
 
-export const gearTypes = {
-	SSG: 16,
-	'V2.5': 19,
-	'DSG 8T': 8,
-	'DSG 9T': 9,
-	'DSG 10T': 10,
-	TSG: 5
+export const gearTeeth = {
+	'SSG (16T)': 16,
+	'V2.5 (19T)': 19,
+	'DSG (8T)': 8,
+	'DSG (9T)': 9,
+	'DSG (10T)': 10,
+	'TSG (5T)': 5
+};
+
+export const gearShotsPerCycle = {
+	SSG: 1,
+	DSG: 2,
+	TSG: 3
 };
 
 export const aegBarrelList = [
