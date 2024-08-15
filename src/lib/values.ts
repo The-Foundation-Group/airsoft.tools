@@ -35,7 +35,9 @@ export const cylTypes = { AEG: aegCyls, Bolt: boltCyls };
 export const gearTypes = {
 	SSG: 16,
 	'V2.5': 19,
-	DSG: 8,
+	'DSG 8T': 8,
+	'DSG 9T': 9,
+	'DSG 10T': 10,
 	TSG: 5
 };
 
