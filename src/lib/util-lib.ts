@@ -57,7 +57,7 @@ export function idealCylToBarrelRatio(bbWeight: number) {
 	// 	Math.log10(bbWeight - 0.13223)
 	// );
 	// using Sodiums equation now
-	return (4.01 - 13.2 * bbWeight + 24.9 * Math.pow(bbWeight, 2))
+	return 4.01 - 13.2 * bbWeight + 24.9 * Math.pow(bbWeight, 2);
 }
 
 export function convertAltitude(altitudeUnits: string, altitudeInput: number) {
@@ -79,7 +79,7 @@ export function convertToRankine(tempUnit: string, degreeInput: number) {
 		case 'R':
 			return degreeInput;
 		default:
-			console.log('Rankine conversion failure, defaulting to 75° F');
+			console.warn('Rankine conversion failure, defaulting to 75° F');
 			return 534.67;
 	}
 }
@@ -91,7 +91,7 @@ export function convertSpeed(inputSpeed: number, convertTo: string) {
 		case 'MPS':
 			return inputSpeed * 0.3048;
 		default:
-			console.log('Unknown speed, conversion failed.');
+			console.warn('Unknown speed, conversion failed.');
 			return inputSpeed;
 	}
 }

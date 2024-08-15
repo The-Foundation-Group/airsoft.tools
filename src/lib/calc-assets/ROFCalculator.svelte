@@ -34,7 +34,6 @@
 		}
 	}
 	function buildOutput(ratio: number, gearType: number, motorSpeed: number) {
-		console.log(ratio, gearType, motorSpeed)
 		let rofLow = roundTo((((motorSpeed*1000) * 0.8 /60) / ratio) * gearType, 0)
 		let rofHigh = roundTo((((motorSpeed*1000) * 0.9 /60) / ratio) * gearType, 0)
 		output = `${rofLow} - ${rofHigh} RPS`;
