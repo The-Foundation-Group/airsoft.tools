@@ -10,7 +10,7 @@
 	import CalcHeader from '$lib/calc-assets/CalcHeader.svelte';
 
 	const motorObject: SpecsObject = { maxValue: 100, maxLength: 5 };
-	const ratioObject: SpecsObject = { maxValue: 40, maxLength: 5 };
+	const ratioObject: SpecsObject = { maxValue: 50, maxLength: 5 };
 	let motorSpeed = { value: '', inValid: false };
 	let selectedGearType: 1;
 	let ratio = { value: '', inValid: false };
